@@ -16,7 +16,14 @@ const navigation = () => {
       subject: 'acl-page',
       title: 'Access Control',
       icon: 'bx:shield',
-    }
+    },
+    {
+      path: '/purchase-order',
+      title: 'Purchase Order',
+      icon: 'bx:shield',
+    },
+  
+
   ]
 }
 

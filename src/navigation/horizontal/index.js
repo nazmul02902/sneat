@@ -15,7 +15,8 @@ const navigation = () => [
     subject: 'acl-page',
     title: 'Access Control',
     icon: 'bx:shield',
-  }
+  },
+  
 ]
 
 export default navigation
