@@ -5,16 +5,9 @@ import Typography from '@mui/material/Typography'
 import CardHeader from '@mui/material/CardHeader'
 import CardContent from '@mui/material/CardContent'
 import { ModeEdit } from '@mui/icons-material'
-import {
-  Autocomplete,
-  Button,
-  FormControlLabel,
-  InputLabel,
-  Radio,
-  RadioGroup,
-  TextField
-} from '@mui/material'
+import { Autocomplete, Button, FormControlLabel, InputLabel, Radio, RadioGroup, TextField } from '@mui/material'
 import { Box } from '@mui/system'
+import AddressDialague from 'src/views/pages/purchase-order/AddressDialogue'
 
 const PurchaseOrder = () => {
   return (
@@ -37,10 +30,10 @@ const PurchaseOrder = () => {
                     options={[{ label: 'one' }, { label: 'two' }]}
                     renderInput={params => <TextField {...params} label='Movie' />}
                   />
-                  <Button variant='text'>+ Add new</Button>
+                  <AddressDialague />
                 </Grid>
               </Grid>
-              <Grid container item xs={12} sx={{marginBottom: "60px"}}>
+              <Grid container item xs={12} sx={{ marginBottom: '60px' }}>
                 <Grid item xs={2}>
                   <InputLabel>Delivery To</InputLabel>
                 </Grid>
@@ -62,7 +55,7 @@ const PurchaseOrder = () => {
                     options={[{ label: 'one' }, { label: 'two' }]}
                     renderInput={params => <TextField {...params} label='Movie' />}
                   />
-                  <Button variant='text'>+ Add New</Button>
+                  <AddressDialague />
                   <Box>
                     <Typography
                       variant='h6'
