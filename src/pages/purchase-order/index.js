@@ -5,9 +5,20 @@ import Typography from '@mui/material/Typography'
 import CardHeader from '@mui/material/CardHeader'
 import CardContent from '@mui/material/CardContent'
 import { ModeEdit } from '@mui/icons-material'
-import { Autocomplete, Button, FormControlLabel, InputLabel, Radio, RadioGroup, TextField } from '@mui/material'
+import {
+  Autocomplete,
+  Button,
+  Divider,
+  FormControlLabel,
+  InputLabel,
+  Radio,
+  RadioGroup,
+  Stack,
+  TextField
+} from '@mui/material'
 import { Box } from '@mui/system'
 import AddressDialague from 'src/views/pages/purchase-order/AddressDialogue'
+import DynamicForm from 'src/views/pages/purchase-order/DynamicForm'
 
 const PurchaseOrder = () => {
   return (
@@ -57,12 +68,28 @@ const PurchaseOrder = () => {
                   />
                   <AddressDialague />
                   <Box>
-                    <Typography
-                      variant='h6'
-                      sx={{ display: 'flex', alignItems: 'center', cursor: 'pointer', gap: 1, marginBottom: '10px' }}
-                    >
-                      Tree <ModeEdit />
-                    </Typography>
+                    <Box sx={{ position: 'relative' }}>
+                      <Typography
+                        variant='h6'
+                        sx={{ display: 'flex', alignItems: 'center', cursor: 'pointer', gap: 1, marginBottom: '10px' }}
+                      >
+                        Tree <ModeEdit />
+                      </Typography>
+                      {/* <Stack
+                        divider={<Divider />}
+                        spacing={1}
+                        sx={{
+                          border: '1px solid',
+                          padding: '10px',
+                          borderRadius: '5px',
+                          position: 'absolute',
+                        }}
+                      >
+                        <Typography>pargaragodid</Typography>
+                        <Typography>pargaragodid</Typography>
+                        <Typography>pargaragodid</Typography>
+                      </Stack> */}
+                    </Box>
                     <Typography size='small' variant='body1'>
                       House
                     </Typography>
@@ -119,6 +146,7 @@ const PurchaseOrder = () => {
                   />
                 </Grid>
               </Grid>
+              <DynamicForm />
             </Grid>
           </CardContent>
         </Card>

@@ -14,6 +14,7 @@ import AddIcon from '@mui/icons-material/Add'
 import Typography from '@mui/material/Typography'
 import { blue } from '@mui/material/colors'
 import { Box } from '@mui/system'
+import { Autocomplete, TextField } from '@mui/material'
 
 function SimpleDialog(props) {
   const { onClose, open } = props
@@ -26,14 +27,33 @@ function SimpleDialog(props) {
     <Dialog onClose={handleClose} open={open} fullWidth={'300px'}>
       <DialogTitle>Set backup account</DialogTitle>
       <Box sx={{ padding: '20px' }}>
-        <Typography variant='h4'>dialague content</Typography>
-        <Typography variant='h4'>dialague content</Typography>
-        <Typography variant='h4'>dialague content</Typography>
-        <Typography variant='h4'>dialague content</Typography>
-        <Typography variant='h4'>dialague content</Typography>
-        <Typography variant='h4'>dialague content</Typography>
-        <Typography variant='h4'>dialague content</Typography>
-        <Typography variant='h4'>dialague content</Typography>
+        <Autocomplete
+          sx={{marginBottom: "10px"}}
+          size='small'
+          fullWidth
+          disablePortal
+          id='combo-box-demo'
+          options={[{ label: 'one' }, { label: 'two' }]}
+          renderInput={params => <TextField {...params} label='Movie' />}
+        />
+        <Autocomplete
+        sx={{marginBottom: "10px"}}
+          size='small'
+          fullWidth
+          disablePortal
+          id='combo-box-demo'
+          options={[{ label: 'one' }, { label: 'two' }]}
+          renderInput={params => <TextField {...params} label='Movie' />}
+        />
+        <Autocomplete
+        sx={{marginBottom: "10px"}}
+          size='small'
+          fullWidth
+          disablePortal
+          id='combo-box-demo'
+          options={[{ label: 'one' }, { label: 'two' }]}
+          renderInput={params => <TextField {...params} label='Movie' />}
+        />
       </Box>
     </Dialog>
   )
