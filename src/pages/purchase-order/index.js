@@ -19,8 +19,10 @@ import {
 import { Box } from '@mui/system'
 import AddressDialague from 'src/views/pages/purchase-order/AddressDialogue'
 import DynamicForm from 'src/views/pages/purchase-order/DynamicForm'
+import { useState } from 'react'
 
 const PurchaseOrder = () => {
+  const [showAddressSection, setShowAddressSection] = useState(false)
   return (
     <Grid container spacing={6}>
       <Grid item xs={12}>
@@ -71,24 +73,30 @@ const PurchaseOrder = () => {
                     <Box sx={{ position: 'relative' }}>
                       <Typography
                         variant='h6'
+                        onClick={() => setShowAddressSection(!showAddressSection)}
                         sx={{ display: 'flex', alignItems: 'center', cursor: 'pointer', gap: 1, marginBottom: '10px' }}
                       >
                         Tree <ModeEdit />
                       </Typography>
-                      {/* <Stack
-                        divider={<Divider />}
-                        spacing={1}
-                        sx={{
-                          border: '1px solid',
-                          padding: '10px',
-                          borderRadius: '5px',
-                          position: 'absolute',
-                        }}
-                      >
-                        <Typography>pargaragodid</Typography>
-                        <Typography>pargaragodid</Typography>
-                        <Typography>pargaragodid</Typography>
-                      </Stack> */}
+                      {showAddressSection && (
+                        <Stack
+                          divider={<Divider />}
+                          spacing={1}
+                          sx={{
+                            padding: '10px',
+                            borderRadius: '5px',
+                            position: 'absolute',
+                            bgcolor: 'background.default',
+                            width: '350px',
+                            maxHeight: '350px'
+                          }}
+                        >
+                          <Typography>pargaragodid</Typography>
+                          <Typography>pargaragodid</Typography>
+                          <Typography>pargaragodid</Typography>
+                          <AddressDialague />
+                        </Stack>
+                      )}
                     </Box>
                     <Typography size='small' variant='body1'>
                       House
