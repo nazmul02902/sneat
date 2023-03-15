@@ -7,6 +7,7 @@ import Box from '@mui/material/Box'
 import { Autocomplete, Grid, InputLabel, TextField } from '@mui/material'
 import FirstTab from './FirstTab'
 import SecondTab from './SecondTab'
+import ThirdTab from './ThirdTab'
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props
@@ -54,7 +55,7 @@ export default function TabArea() {
         <Tabs value={value} onChange={handleChange} aria-label='basic tabs example'>
           <Tab label='Other Details' {...a11yProps(0)} />
           <Tab label='Address' {...a11yProps(1)} />
-          <Tab label='Item Three' {...a11yProps(2)} />
+          <Tab label='Remarks' {...a11yProps(2)} />
         </Tabs>
       </Box>
       <TabPanel value={value} index={0}>
@@ -64,7 +65,7 @@ export default function TabArea() {
        <SecondTab/>
       </TabPanel>
       <TabPanel value={value} index={2}>
-        Item Three
+        <ThirdTab/>
       </TabPanel>
     </Box>
   )

@@ -17,9 +17,8 @@ import {
   TextField
 } from '@mui/material'
 import { Box } from '@mui/system'
-// import AddressDialague from 'src/views/pages/purchase-order/AddressDialogue'
 import DynamicForm from 'src/views/pages/purchase-order/DynamicForm'
-import AddressDialague from 'src/views/pages/purchase-order/AddressDialogue'
+import AddressDialague from 'src/views/pages/purchase-order/VendorCreateDialogue'
 import { useState } from 'react'
 
 const PurchaseOrder = () => {

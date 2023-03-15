@@ -21,6 +21,7 @@ import GridInput from 'src/@core/components/FormFields/GridInput'
 
 function SimpleDialog(props) {
   const { onClose, open } = props
+  const [showMore, setShowMore] = React.useState(false)
 
   const handleClose = () => {
     onClose()
@@ -31,10 +32,9 @@ function SimpleDialog(props) {
       <DialogTitle>Add New Vendor</DialogTitle>
       <Box sx={{ padding: '20px' }}>
         <Grid container>
-          <GridAutocomplete />
           <Grid container item xs={12} sx={{ marginY: '10px' }}>
             <Grid item xs={2}>
-              <InputLabel>Vendor's Name</InputLabel>
+              <InputLabel>Vendor Type</InputLabel>
             </Grid>
             <Grid item xs={6}>
               <RadioGroup
@@ -50,7 +50,7 @@ function SimpleDialog(props) {
           </Grid>
           <Grid container spacing={2} sx={{ marginY: '10px' }}>
             <Grid item xs={2}>
-              <InputLabel>Vendor's Name</InputLabel>
+              <InputLabel>Primary Contact</InputLabel>
             </Grid>
             <Grid item xs={3}>
               <Autocomplete
@@ -59,7 +59,7 @@ function SimpleDialog(props) {
                 disablePortal
                 id='combo-box-demo'
                 options={[{ label: 'one' }, { label: 'two' }]}
-                renderInput={params => <TextField {...params} label='Movie' />}
+                renderInput={params => <TextField {...params} label='Saluation' />}
               />
             </Grid>
             <Grid item xs={2}>
@@ -69,14 +69,14 @@ function SimpleDialog(props) {
               <TextField size='small' fullWidth />
             </Grid>
           </Grid>
-         
-         <GridInput/>
 
-          <GridAutocomplete />
-          <GridInput />
+          <GridInput label='Company Name' />
+
+          <GridAutocomplete label='Vendor Display Name' />
+          <GridInput label='Vendor Email' />
           <Grid container item xs={12} sx={{ marginY: '10px' }} spacing={2}>
             <Grid item xs={2}>
-              <InputLabel>Vendor's Name</InputLabel>
+              <InputLabel>Vendor Phone</InputLabel>
             </Grid>
             <Grid item xs={3}>
               <TextField size='small' fullWidth />
@@ -85,12 +85,25 @@ function SimpleDialog(props) {
               <TextField size='small' fullWidth />
             </Grid>
           </Grid>
-          <GridAutocomplete />
-          <Typography color={'primary'} my={2}>
-            Add more details
-          </Typography>
-          <GridAutocomplete />
-          <GridInput />
+          {!showMore && (
+            <Typography
+              color={'primary'}
+              sx={{ cursor: 'pointer' }}
+              my={2}
+              onClick={() => {
+                setShowMore(!showMore)
+              }}
+            >
+              Add more details
+            </Typography>
+          )}
+          {showMore && (
+            <>
+              <GridAutocomplete label='Designation' />
+              <GridAutocomplete label='Department' />
+              <GridInput label='Website' />
+            </>
+          )}
           <TabArea />
         </Grid>
       </Box>
