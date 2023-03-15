@@ -16,6 +16,8 @@ import {
   Typography
 } from '@mui/material'
 import TabArea from './TabArea'
+import GridAutocomplete from 'src/@core/components/FormFields/GridAutocomplete'
+import GridInput from 'src/@core/components/FormFields/GridInput'
 
 function SimpleDialog(props) {
   const { onClose, open } = props
@@ -29,21 +31,7 @@ function SimpleDialog(props) {
       <DialogTitle>Add New Vendor</DialogTitle>
       <Box sx={{ padding: '20px' }}>
         <Grid container>
-          <Grid container item xs={12} sx={{ marginY: '10px' }}>
-            <Grid item xs={2}>
-              <InputLabel>Vendor's Name</InputLabel>
-            </Grid>
-            <Grid item xs={6}>
-              <Autocomplete
-                size='small'
-                fullWidth
-                disablePortal
-                id='combo-box-demo'
-                options={[{ label: 'one' }, { label: 'two' }]}
-                renderInput={params => <TextField {...params} label='Movie' />}
-              />
-            </Grid>
-          </Grid>
+          <GridAutocomplete />
           <Grid container item xs={12} sx={{ marginY: '10px' }}>
             <Grid item xs={2}>
               <InputLabel>Vendor's Name</InputLabel>
@@ -81,38 +69,11 @@ function SimpleDialog(props) {
               <TextField size='small' fullWidth />
             </Grid>
           </Grid>
-          <Grid container item xs={12} sx={{ marginY: '10px' }}>
-            <Grid item xs={2}>
-              <InputLabel>Vendor's Name</InputLabel>
-            </Grid>
-            <Grid item xs={6}>
-              <TextField size='small' fullWidth />
-            </Grid>
-          </Grid>
+         
+         <GridInput/>
 
-          <Grid container item xs={12} sx={{ marginY: '10px' }}>
-            <Grid item xs={2}>
-              <InputLabel>Vendor's Name</InputLabel>
-            </Grid>
-            <Grid item xs={6}>
-              <Autocomplete
-                size='small'
-                fullWidth
-                disablePortal
-                id='combo-box-demo'
-                options={[{ label: 'one' }, { label: 'two' }]}
-                renderInput={params => <TextField {...params} label='Movie' />}
-              />
-            </Grid>
-          </Grid>
-          <Grid container item xs={12} sx={{ marginY: '10px' }}>
-            <Grid item xs={2}>
-              <InputLabel>Vendor's Name</InputLabel>
-            </Grid>
-            <Grid item xs={6}>
-              <TextField size='small' fullWidth />
-            </Grid>
-          </Grid>
+          <GridAutocomplete />
+          <GridInput />
           <Grid container item xs={12} sx={{ marginY: '10px' }} spacing={2}>
             <Grid item xs={2}>
               <InputLabel>Vendor's Name</InputLabel>
@@ -124,47 +85,12 @@ function SimpleDialog(props) {
               <TextField size='small' fullWidth />
             </Grid>
           </Grid>
-          <Grid container item xs={12} sx={{ marginY: '10px' }}>
-            <Grid item xs={2}>
-              <InputLabel>Vendor's Name</InputLabel>
-            </Grid>
-            <Grid item xs={6}>
-              <Autocomplete
-                size='small'
-                fullWidth
-                disablePortal
-                id='combo-box-demo'
-                options={[{ label: 'one' }, { label: 'two' }]}
-                renderInput={params => <TextField {...params} label='Movie' />}
-              />
-            </Grid>
-          </Grid>
+          <GridAutocomplete />
           <Typography color={'primary'} my={2}>
             Add more details
           </Typography>
-          <Grid container item xs={12} sx={{ marginY: '10px' }}>
-            <Grid item xs={2}>
-              <InputLabel>Vendor's Name</InputLabel>
-            </Grid>
-            <Grid item xs={6}>
-              <Autocomplete
-                size='small'
-                fullWidth
-                disablePortal
-                id='combo-box-demo'
-                options={[{ label: 'one' }, { label: 'two' }]}
-                renderInput={params => <TextField {...params} label='Movie' />}
-              />
-            </Grid>
-          </Grid>
-          <Grid container item xs={12} sx={{ marginY: '10px' }}>
-            <Grid item xs={2}>
-              <InputLabel>Vendor's Name</InputLabel>
-            </Grid>
-            <Grid item xs={6}>
-              <TextField size='small' fullWidth />
-            </Grid>
-          </Grid>
+          <GridAutocomplete />
+          <GridInput />
           <TabArea />
         </Grid>
       </Box>

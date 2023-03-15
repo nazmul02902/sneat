@@ -6,6 +6,7 @@ import Typography from '@mui/material/Typography'
 import Box from '@mui/material/Box'
 import { Autocomplete, Grid, InputLabel, TextField } from '@mui/material'
 import FirstTab from './FirstTab'
+import SecondTab from './SecondTab'
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props
@@ -51,8 +52,8 @@ export default function TabArea() {
     <Box sx={{ width: '100%' }}>
       <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
         <Tabs value={value} onChange={handleChange} aria-label='basic tabs example'>
-          <Tab label='Item One' {...a11yProps(0)} />
-          <Tab label='Item Two' {...a11yProps(1)} />
+          <Tab label='Other Details' {...a11yProps(0)} />
+          <Tab label='Address' {...a11yProps(1)} />
           <Tab label='Item Three' {...a11yProps(2)} />
         </Tabs>
       </Box>
@@ -60,7 +61,7 @@ export default function TabArea() {
         <FirstTab/>
       </TabPanel>
       <TabPanel value={value} index={1}>
-        Item Two
+       <SecondTab/>
       </TabPanel>
       <TabPanel value={value} index={2}>
         Item Three
