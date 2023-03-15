@@ -2,10 +2,15 @@ import { Download } from '@mui/icons-material'
 import { Button, Grid, Typography } from '@mui/material'
 import { Box } from '@mui/system'
 import GridInput from 'src/@core/components/FormFields/GridInput'
+import { useGetCountryQuery } from 'src/store/services/vendor'
 
 const { default: GridAutocomplete } = require('src/@core/components/FormFields/GridAutocomplete')
 
 const SecondTab = () => {
+    //redux
+    const {data} = useGetCountryQuery("vendor");
+
+
   return (
     <Grid container spacing={4}>
       <Grid item container xs={6}>
@@ -13,7 +18,7 @@ const SecondTab = () => {
           Billing Address
         </Typography>
         <GridInput label={'Attention'} cols={[3, 6]} />
-        <GridAutocomplete label={'Country'} addNew={true} options={[{ label: 'one' }]} cols={[3, 6]} />
+        <GridAutocomplete label={'Country'} addNew={true} options={data?.data} variable_name="country_name" cols={[3, 6]} />
         <GridAutocomplete label={'State'} addNew cols={[3, 6]} />
         <GridAutocomplete label={'District'} addNew cols={[3, 6]} />
         <GridAutocomplete label={'City/Thana'} cols={[3, 6]} />

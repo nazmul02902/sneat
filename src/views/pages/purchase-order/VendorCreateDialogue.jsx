@@ -18,6 +18,7 @@ import {
 import TabArea from './TabArea'
 import GridAutocomplete from 'src/@core/components/FormFields/GridAutocomplete'
 import GridInput from 'src/@core/components/FormFields/GridInput'
+import { useGetCountryQuery } from 'src/store/services/vendor'
 
 function SimpleDialog(props) {
   const { onClose, open } = props
@@ -26,6 +27,8 @@ function SimpleDialog(props) {
   const handleClose = () => {
     onClose()
   }
+
+
 
   return (
     <Dialog onClose={handleClose} open={open} maxWidth='lg' fullWidth>
