@@ -30,6 +30,8 @@ const themeOptions = settings => {
         fontFamily:
           userFontFamily ||
           [
+            'IBM Plex Sans',
+            'sans-serif',
             'Public Sans',
             'sans-serif',
             '-apple-system',

@@ -1,6 +1,9 @@
+@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@100;200;300;400;500;600;700&display=swap');
+
 html,
 body {
   min-height: 100%;
+  font-family: 'IBM Plex Sans', sans-serif !important;
 }
 
 #__next {
@@ -8,8 +11,9 @@ body {
 }
 
 code {
-  font-family: 'Public Sans', sans-serif, -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu',
-    'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue';
+  /* font-family: 'Public Sans', sans-serif, -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu',
+    'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue'; */
+  font-family: 'IBM Plex Sans', sans-serif;
   padding: 0.1rem 0.4rem;
   font-size: 90%;
   color: #00a0ff;
