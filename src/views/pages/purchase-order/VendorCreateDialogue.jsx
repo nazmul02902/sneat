@@ -19,94 +19,128 @@ import TabArea from './TabArea'
 import GridAutocomplete from 'src/@core/components/FormFields/GridAutocomplete'
 import GridInput from 'src/@core/components/FormFields/GridInput'
 import { useGetCountryQuery } from 'src/store/services/vendor'
+import { useForm, FormProvider, Controller } from 'react-hook-form'
+import VendorAutoComplete from 'src/@core/components/FormFields/VendorAutoComplete'
+import VendorInput from 'src/@core/components/FormFields/VendorInput'
 
 function SimpleDialog(props) {
+  const [displayName, setDisplayName] = React.useState([])
   const { onClose, open } = props
   const [showMore, setShowMore] = React.useState(false)
 
   const handleClose = () => {
     onClose()
   }
+  //form
+  const methods = useForm()
 
+  const onSubmit = values => {
+    console.log(values)
+  }
 
+  const watchFields = methods.watch(['salutation', 'first_name', 'last_name'])
+  console.log(watchFields)
+
+  React.useEffect(() => {
+    setDisplayName([
+      `${watchFields[0]} ${watchFields[1]} ${watchFields[2]}`,
+      `${watchFields[1]} ${watchFields[2]}`,
+      `${watchFields[0]} ${watchFields[1]}`,
+      `${watchFields[0]} ${watchFields[2]}`
+    ])
+  }, [watchFields])
+
+  const displayNameOptions = [watchFields[0] + watchFields[1] + watchFields[2]]
 
   return (
     <Dialog onClose={handleClose} open={open} maxWidth='lg' fullWidth>
       <DialogTitle>Add New Vendor</DialogTitle>
       <Box sx={{ padding: '20px' }}>
         <Grid container>
-          <Grid container item xs={12} sx={{ marginY: '10px' }}>
-            <Grid item xs={2}>
-              <InputLabel>Vendor Type</InputLabel>
-            </Grid>
-            <Grid item xs={6}>
-              <RadioGroup
-                aria-labelledby='demo-radio-buttons-group-label'
-                defaultValue='business'
-                name='radio-buttons-group'
-                row
-              >
-                <FormControlLabel value='business' control={<Radio />} label='Business' />
-                <FormControlLabel value='individual' control={<Radio />} label='Individual' />
-              </RadioGroup>
-            </Grid>
-          </Grid>
-          <Grid container spacing={2} sx={{ marginY: '10px' }}>
-            <Grid item xs={2}>
-              <InputLabel>Primary Contact</InputLabel>
-            </Grid>
-            <Grid item xs={3}>
-              <Autocomplete
-                size='small'
-                fullWidth
-                disablePortal
-                id='combo-box-demo'
-                options={[{ label: 'one' }, { label: 'two' }]}
-                renderInput={params => <TextField {...params} label='Saluation' />}
-              />
-            </Grid>
-            <Grid item xs={2}>
-              <TextField size='small' fullWidth />
-            </Grid>
-            <Grid item xs={2}>
-              <TextField size='small' fullWidth />
-            </Grid>
-          </Grid>
+          <FormProvider {...methods}>
+            <form style={{ width: '100%' }} onBlur={methods.handleSubmit(onSubmit)}>
+              <Grid container item xs={12} sx={{ marginY: '10px' }}>
+                <Grid item xs={2}>
+                  <InputLabel>Vendor Type</InputLabel>
+                </Grid>
+                <Grid item xs={6}>
+                  <RadioGroup
+                    aria-labelledby='demo-radio-buttons-group-label'
+                    defaultValue='business'
+                    name='radio-buttons-group'
+                    row
+                    {...methods.register('vendor_type')}
+                  >
+                    <FormControlLabel value='business' control={<Radio />} label='Business' />
+                    <FormControlLabel value='individual' control={<Radio />} label='Individual' />
+                  </RadioGroup>
+                </Grid>
+              </Grid>
+              <Grid container spacing={2} sx={{ marginY: '10px' }}>
+                <Grid item xs={2}>
+                  <InputLabel>Primary Contact</InputLabel>
+                </Grid>
+                <Grid item xs={3}>
+                  <Controller
+                    control={methods.control}
+                    name={'salutation'}
+                    render={({ field: { onChange, value } }) => (
+                      <Autocomplete
+                        options={['Mr', 'Mrs', 'Miss', 'Dr']}
+                        size='small'
+                        renderInput={params => {
+                          return <TextField {...params} onChange={onChange} />
+                        }}
+                        onChange={(event, values, reason) => onChange(values)}
+                        value={value}
+                      />
+                    )}
+                  />
+                </Grid>
+                <Grid item xs={2}>
+                  <TextField {...methods.register('first_name')} size='small' label={'First Name'} fullWidth />
+                </Grid>
+                <Grid item xs={2}>
+                  <TextField size='small' {...methods.register('last_name')} label={'last Name'} fullWidth />
+                </Grid>
+              </Grid>
 
-          <GridInput label='Company Name' />
+              <VendorInput itemName='company_name' label='Company Name' />
 
-          <GridAutocomplete label='Vendor Display Name' />
-          <GridInput label='Vendor Email' />
-          <Grid container item xs={12} sx={{ marginY: '10px' }} spacing={2}>
-            <Grid item xs={2}>
-              <InputLabel>Vendor Phone</InputLabel>
-            </Grid>
-            <Grid item xs={3}>
-              <TextField size='small' fullWidth />
-            </Grid>
-            <Grid item xs={3}>
-              <TextField size='small' fullWidth />
-            </Grid>
-          </Grid>
-          {!showMore && (
-            <Typography
-              color={'primary'}
-              sx={{ cursor: 'pointer' }}
-              my={2}
-              onClick={() => {
-                setShowMore(!showMore)
-              }}
-            >
-              Add more details
-            </Typography>
-          )}
-          {showMore && (
-            <>
-              <GridAutocomplete label='Designation' />
-              <GridAutocomplete label='Department' />
-              <GridInput label='Website' />
-            </>
-          )}
+              <VendorAutoComplete label='Vendor Display Name' options={displayName} itemName={'diplay_name'} />
+              <VendorInput itemName='email' label='Vendor Email' />
+              <Grid container item xs={12} sx={{ marginY: '10px' }} spacing={2}>
+                <Grid item xs={2}>
+                  <InputLabel>Vendor Phone</InputLabel>
+                </Grid>
+                <Grid item xs={3}>
+                  <TextField size='small' fullWidth />
+                </Grid>
+                <Grid item xs={3}>
+                  <TextField size='small' fullWidth />
+                </Grid>
+              </Grid>
+              {!showMore && (
+                <Typography
+                  color={'primary'}
+                  sx={{ cursor: 'pointer' }}
+                  my={2}
+                  onClick={() => {
+                    setShowMore(!showMore)
+                  }}
+                >
+                  Add more details
+                </Typography>
+              )}
+              {showMore && (
+                <>
+                  <GridAutocomplete label='Designation' />
+                  <GridAutocomplete label='Department' />
+                  <GridInput label='Website' />
+                </>
+              )}
+            </form>
+          </FormProvider>
           <TabArea />
         </Grid>
       </Box>
