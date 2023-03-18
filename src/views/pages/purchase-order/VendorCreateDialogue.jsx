@@ -8,25 +8,31 @@ import {
   Autocomplete,
   FormControlLabel,
   Grid,
+  IconButton,
   Input,
   InputLabel,
   Radio,
   RadioGroup,
+  Slide,
   TextField,
   Typography
 } from '@mui/material'
 import TabArea from './TabArea'
 import GridAutocomplete from 'src/@core/components/FormFields/GridAutocomplete'
 import GridInput from 'src/@core/components/FormFields/GridInput'
-import { useGetCountryQuery } from 'src/store/services/vendor'
 import { useForm, FormProvider, Controller } from 'react-hook-form'
 import VendorAutoComplete from 'src/@core/components/FormFields/VendorAutoComplete'
 import VendorInput from 'src/@core/components/FormFields/VendorInput'
+import { Close } from '@mui/icons-material'
 
 function SimpleDialog(props) {
   const [displayName, setDisplayName] = React.useState([])
   const { onClose, open } = props
   const [showMore, setShowMore] = React.useState(false)
+
+  // const Transition = React.forwardRef(function Transition(props, ref) {
+  //   return <Slide direction="down" ref={ref} {...props} />;
+  // });
 
   const handleClose = () => {
     onClose()
@@ -42,19 +48,25 @@ function SimpleDialog(props) {
   console.log(watchFields)
 
   React.useEffect(() => {
-    setDisplayName([
-      `${watchFields[0]} ${watchFields[1]} ${watchFields[2]}`,
-      `${watchFields[1]} ${watchFields[2]}`,
-      `${watchFields[0]} ${watchFields[1]}`,
-      `${watchFields[0]} ${watchFields[2]}`
-    ])
+    if (watchFields[0] && watchFields[1] && watchFields[2]) {
+      setDisplayName([
+        `${watchFields[0]} ${watchFields[1]} ${watchFields[2]}`,
+        `${watchFields[1]} ${watchFields[2]}`,
+        `${watchFields[2]} ${watchFields[1]}`,
+        `${watchFields[0]} ${watchFields[2]}`
+      ])
+    }
   }, [watchFields])
 
-  const displayNameOptions = [watchFields[0] + watchFields[1] + watchFields[2]]
-
   return (
-    <Dialog onClose={handleClose} open={open} maxWidth='lg' fullWidth>
-      <DialogTitle>Add New Vendor</DialogTitle>
+    <Dialog  onClose={handleClose} open={open} scroll='body' maxWidth='lg' fullWidth >
+      <DialogTitle sx={{display: "flex", alignItems:"center", justifyContent: "space-between"}}>
+        <Typography>Add New Vendor</Typography>
+        <IconButton onClick={onClose}>
+          <Close />
+        </IconButton>
+      </DialogTitle>
+
       <Box sx={{ padding: '20px' }}>
         <Grid container>
           <FormProvider {...methods}>

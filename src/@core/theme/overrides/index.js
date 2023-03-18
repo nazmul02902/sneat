@@ -31,6 +31,7 @@ import MuiPagination from './pagination'
 import MuiTypography from './typography'
 import MuiAutocomplete from './autocomplete'
 import MuiToggleButton from './toggleButton'
+import TextField from './texfield'
 
 const Overrides = (theme, settings) => {
   const { skin } = settings
@@ -94,7 +95,8 @@ const Overrides = (theme, settings) => {
     pagination,
     autocomplete,
     MuiTypography,
-    MuiToggleButton
+    MuiToggleButton,
+    TextField
   )
 }
 

@@ -1,14 +1,23 @@
 import { Download } from '@mui/icons-material'
-import { Button, Grid, Typography } from '@mui/material'
+import { Button, Grid , Typography } from '@mui/material'
 import { Box } from '@mui/system'
 import GridInput from 'src/@core/components/FormFields/GridInput'
-import { useGetCountryQuery } from 'src/store/services/vendor'
+import { useGetCountryQuery, useGetDistrictsQuery, useGetStatesQuery, useGetStreetsQuery, useGetThanasQuery, useGetUnionsQuery, useGetZipcodeQuery } from 'src/store/services/vendor'
 
 const { default: GridAutocomplete } = require('src/@core/components/FormFields/GridAutocomplete')
 
 const SecondTab = () => {
     //redux
     const {data} = useGetCountryQuery("vendor");
+    const states = useGetStatesQuery("BD")
+    const districts = useGetDistrictsQuery("1")
+    const thanas = useGetThanasQuery("1")
+    const unions = useGetUnionsQuery("1")
+    const zips = useGetZipcodeQuery("1")
+    const streets = useGetStreetsQuery("1")
+    console.log(states, districts, thanas, unions, zips, streets)
+
+
 
 
   return (
@@ -18,9 +27,9 @@ const SecondTab = () => {
           Billing Address
         </Typography>
         <GridInput label={'Attention'} cols={[3, 6]} />
-        <GridAutocomplete label={'Country'} addNew={true} options={data?.data} variable_name="country_name" cols={[3, 6]} />
-        <GridAutocomplete label={'State'} addNew cols={[3, 6]} />
-        <GridAutocomplete label={'District'} addNew cols={[3, 6]} />
+        <GridAutocomplete label={'Country'} options={data?.data} variable_name="country_name" cols={[3, 6]} />
+        <GridAutocomplete label={'State'} cols={[3, 6]} />
+        <GridAutocomplete label={'District'} cols={[3, 6]} />
         <GridAutocomplete label={'City/Thana'} cols={[3, 6]} />
         <GridAutocomplete label={'Union/Village'} cols={[3, 6]} />
         <GridAutocomplete label={'Zipcode'} cols={[3, 6]} />
