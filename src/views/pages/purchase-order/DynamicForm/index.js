@@ -35,7 +35,7 @@ const DynamicForm = () => {
       </Grid>
 
       {item.map((item, i) => (
-        <Grid item container xs={12} sx={{ marginTop: '10px' }} alignItems={'flex-start'}>
+        <Grid key={i} item container xs={12} sx={{ marginTop: '10px' }} alignItems={'flex-start'}>
           <Grid item xs={1}>
             <Typography>Image</Typography>
           </Grid>
