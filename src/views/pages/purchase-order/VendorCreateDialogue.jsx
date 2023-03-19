@@ -119,7 +119,7 @@ function SimpleDialog(props) {
 
               <VendorInput itemName='company_name' label='Company Name' />
 
-              <VendorAutoComplete label='Vendor Display Name' options={displayName} itemName={'diplay_name'} />
+              <VendorAutoComplete addNew label='Vendor Display Name' options={displayName} itemName={'diplay_name'} />
               <VendorInput itemName='email' label='Vendor Email' />
               <Grid container item xs={12} sx={{ marginY: '10px' }} spacing={2}>
                 <Grid item xs={2}>
