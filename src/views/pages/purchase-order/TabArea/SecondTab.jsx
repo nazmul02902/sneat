@@ -25,7 +25,7 @@ const SecondTab = () => {
   const unions = useGetUnionsQuery('1')
   const zips = useGetZipcodeQuery('1')
   const streets = useGetStreetsQuery('1')
-  console.log(states, districts, thanas, unions, zips, streets)
+  console.log(data)
 
   const methods = useForm()
 
@@ -41,19 +41,26 @@ const SecondTab = () => {
               <GridInput label={'Attention'} cols={[3, 6]} />
 
               <VendorAutoComplete
-                addNew
+                control={methods.control}
                 variable_name='country_name'
                 itemName='country'
                 label='Country'
                 options={data?.data}
                 cols={[3, 6]}
               />
-              {/* <VendorAutoComplete itemName='state' addNew label={'State'} cols={[3, 6]} />
-              <VendorAutoComplete itemName="city"  addNew label={'District'} cols={[3, 6]} />
-              <VendorAutoComplete itemName="thana" addNew label={'City/Thana'} cols={[3, 6]} />
-              <VendorAutoComplete itemName="union" addNew label={'Union/Village'} cols={[3, 6]} />
-              <VendorAutoComplete itemName="zip" addNew label={'Zipcode'} cols={[3, 6]} />
-              <VendorAutoComplete itemName="village" addNew label={'Street Address 1'} cols={[3, 6]} /> */}
+              <VendorAutoComplete
+                parent='country'
+                addNew
+                itemName='state'
+                variable_name={'state'}
+                label={'State'}
+                cols={[3, 6]}
+              />
+              <VendorAutoComplete itemName='city' addNew label={'District'} cols={[3, 6]} />
+              <VendorAutoComplete itemName='thana' addNew label={'City/Thana'} cols={[3, 6]} />
+              <VendorAutoComplete itemName='union' addNew label={'Union/Village'} cols={[3, 6]} />
+              <VendorAutoComplete itemName='zip' addNew label={'Zipcode'} cols={[3, 6]} />
+              <VendorAutoComplete itemName='village' addNew label={'Street Address 1'} cols={[3, 6]} />
               <GridInput label={'Street Address 2'} cols={[3, 6]} />
               <GridInput label={'Phone'} cols={[3, 6]} />
               <GridInput label={'Fax'} cols={[3, 6]} />

@@ -1,5 +1,6 @@
 import { Grid, InputLabel, Autocomplete, TextField, Box, Button, Typography, Badge, Chip, Modal } from '@mui/material'
 import { useState } from 'react'
+import { Controller } from 'react-hook-form'
 
 const GridAutocomplete = ({ cols, addNew, label, formName, options = [], variable_name }) => {
   const copied_option = [...options]
@@ -15,6 +16,7 @@ const GridAutocomplete = ({ cols, addNew, label, formName, options = [], variabl
         <InputLabel>{label ? label : 'label'}</InputLabel>
       </Grid>
       <Grid item xs={cols ? cols[1] : 6}>
+       
         <Autocomplete
           {...defaultProps}
           size='small'
