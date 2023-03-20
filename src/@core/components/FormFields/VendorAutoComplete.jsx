@@ -19,7 +19,6 @@ import { useCreateLocationMutation } from 'src/store/services/vendor'
 
 const VendorAutoComplete = ({ cols, parent, addNew, label, itemName, options = [], variable_name, control }) => {
   const [value, setValue] = useState(null)
-  // console.log(value)
   const [open, setOpen] = useState(false)
   const copied_option = options ? [...options] : []
   const [createLocation, result] = useCreateLocationMutation()
@@ -31,7 +30,6 @@ const VendorAutoComplete = ({ cols, parent, addNew, label, itemName, options = [
 
   const methods = useFormContext()
   const watch_val = methods.watch()
-  console.log(watch_val)
 
   const filter = createFilterOptions()
 
@@ -85,7 +83,6 @@ const VendorAutoComplete = ({ cols, parent, addNew, label, itemName, options = [
               id='combo-box-demo'
               renderInput={params => <TextField label={label} {...params} />}
               onChange={(event, newValue) => {
-                console.log(newValue)
                 if (!addNew) {
                   setValue(newValue)
                   field.onChange(newValue)
