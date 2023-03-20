@@ -17,17 +17,17 @@ import {
 const { default: GridAutocomplete } = require('src/@core/components/FormFields/GridAutocomplete')
 
 const SecondTab = () => {
+  const methods = useForm()
+  const fieldsVal = methods.watch()
   //redux
   const { data } = useGetCountryQuery('vendor')
-  const states = useGetStatesQuery('BD')
-  const districts = useGetDistrictsQuery('1')
-  const thanas = useGetThanasQuery('1')
-  const unions = useGetUnionsQuery('1')
-  const zips = useGetZipcodeQuery('1')
-  const streets = useGetStreetsQuery('1')
-  console.log(data)
-
-  const methods = useForm()
+  const states = useGetStatesQuery(fieldsVal?.country?.iso2)
+  const districts = useGetDistrictsQuery(fieldsVal?.state?.id)
+  const thanas = useGetThanasQuery(fieldsVal?.district?.id)
+  const unions = useGetUnionsQuery(fieldsVal?.thana?.id)
+  const zips = useGetZipcodeQuery(fieldsVal?.union?.id)
+  const villages = useGetStreetsQuery(fieldsVal?.zip?.id)
+  console.log(states)
 
   return (
     <Grid container spacing={4}>
@@ -52,15 +52,56 @@ const SecondTab = () => {
                 parent='country'
                 addNew
                 itemName='state'
-                variable_name={'state'}
+                options={states.isSuccess && states?.data?.data}
+                variable_name={'state_name'}
                 label={'State'}
                 cols={[3, 6]}
               />
-              <VendorAutoComplete itemName='city' addNew label={'District'} cols={[3, 6]} />
-              <VendorAutoComplete itemName='thana' addNew label={'City/Thana'} cols={[3, 6]} />
-              <VendorAutoComplete itemName='union' addNew label={'Union/Village'} cols={[3, 6]} />
-              <VendorAutoComplete itemName='zip' addNew label={'Zipcode'} cols={[3, 6]} />
-              <VendorAutoComplete itemName='village' addNew label={'Street Address 1'} cols={[3, 6]} />
+              <VendorAutoComplete
+                parent='state'
+                itemName='district'
+                options={districts.isSuccess && districts?.data?.data}
+                addNew
+                label={'District'}
+                variable_name='district_name'
+                cols={[3, 6]}
+              />
+              <VendorAutoComplete
+                parent='district'
+                variable_name={'thana_name'}
+                itemName='thana'
+                options={thanas.isSuccess && thanas?.data?.data}
+                addNew
+                label={'City/Thana'}
+                cols={[3, 6]}
+              />
+              <VendorAutoComplete
+                parent='thana'
+                variable_name={'union_name'}
+                options={unions.isSuccess && unions?.data?.data}
+                itemName='union'
+                addNew
+                label={'Union/Village'}
+                cols={[3, 6]}
+              />
+              <VendorAutoComplete
+                parent='union'
+                variable_name={'zipcode_name'}
+                options={zips.isSuccess && zips?.data?.data}
+                itemName='zipcode'
+                addNew
+                label={'Zipcode'}
+                cols={[3, 6]}
+              />
+              <VendorAutoComplete
+                parent='zipcode'
+                variable_name={'street_name'}
+                options={villages.isSuccess && villages?.data?.data}
+                itemName='street-address'
+                addNew
+                label={'Street Address 1'}
+                cols={[3, 6]}
+              />
               <GridInput label={'Street Address 2'} cols={[3, 6]} />
               <GridInput label={'Phone'} cols={[3, 6]} />
               <GridInput label={'Fax'} cols={[3, 6]} />
