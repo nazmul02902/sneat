@@ -5,7 +5,7 @@ import { FormProvider, useForm } from 'react-hook-form'
 import { useDispatch, useSelector } from 'react-redux'
 import GridInput from 'src/@core/components/FormFields/GridInput'
 import VendorAutoComplete from 'src/@core/components/FormFields/VendorAutoComplete'
-import { updateBillingAddress } from 'src/store/apps/vendor'
+import { updateBillingAddress, updateShippingAddress } from 'src/store/apps/vendor'
 import {
   useGetCountryQuery,
   useGetDistrictsQuery,
@@ -16,12 +16,12 @@ import {
   useGetZipcodeQuery
 } from 'src/store/services/vendor'
 
-const AddressComponent = ({key, initialVal}) => {
-  console.log(initialVal);
+const AddressComponent = ({ domain, initialVal }) => {
+  console.log(initialVal)
   const methods = useForm()
   const fieldsVal = methods.watch()
   const dispatch = useDispatch()
-  const {vendor} = useSelector(state => state)
+  const { vendor } = useSelector(state => state)
   //redux
   const { data } = useGetCountryQuery('vendor')
   const states = useGetStatesQuery(fieldsVal?.country?.iso2)
@@ -30,15 +30,16 @@ const AddressComponent = ({key, initialVal}) => {
   const unions = useGetUnionsQuery(fieldsVal?.thana?.id)
   const zips = useGetZipcodeQuery(fieldsVal?.union?.id)
   const villages = useGetStreetsQuery(fieldsVal?.zipcode?.id)
+
   const onSubmit = values => {
-    console.log(values)
-    dispatch(updateBillingAddress(values))
+    if (domain === 'billing') {
+      dispatch(updateBillingAddress(values))
+    }
   }
 
   return (
-    <FormProvider {...methods} key={key}>
-      <form key={key} action='' fullWidth onBlur={methods.handleSubmit(onSubmit)}>
-        
+    <FormProvider {...methods} key={domain}>
+      <form key={domain} action='' fullWidth onBlur={methods.handleSubmit(onSubmit)}>
         <Grid item container fullWidth xs={12}>
           <GridInput label={'Attention'} cols={[3, 6]} />
 
@@ -49,6 +50,7 @@ const AddressComponent = ({key, initialVal}) => {
             label='Country'
             options={data?.data}
             cols={[3, 6]}
+            initialVal={initialVal?.country}
           />
           <VendorAutoComplete
             parent='country'
@@ -58,6 +60,7 @@ const AddressComponent = ({key, initialVal}) => {
             variable_name={'state_name'}
             label={'State'}
             cols={[3, 6]}
+            initialVal={initialVal?.state ?? ""}
           />
           <VendorAutoComplete
             parent='state'
@@ -67,6 +70,7 @@ const AddressComponent = ({key, initialVal}) => {
             label={'District'}
             variable_name='district_name'
             cols={[3, 6]}
+            initialVal={initialVal?.district ?? ""}
           />
           <VendorAutoComplete
             parent='district'
@@ -76,6 +80,7 @@ const AddressComponent = ({key, initialVal}) => {
             addNew
             label={'City/Thana'}
             cols={[3, 6]}
+            initialVal={initialVal?.thana ?? ""}
           />
           <VendorAutoComplete
             parent='thana'
@@ -85,6 +90,7 @@ const AddressComponent = ({key, initialVal}) => {
             addNew
             label={'Union/Village'}
             cols={[3, 6]}
+            initialVal={initialVal?.union ?? ""}
           />
           <VendorAutoComplete
             parent='union'
@@ -94,6 +100,7 @@ const AddressComponent = ({key, initialVal}) => {
             addNew
             label={'Zipcode'}
             cols={[3, 6]}
+            initialVal={initialVal?.zipcode ?? ""}
           />
           <VendorAutoComplete
             parent='zipcode'
@@ -103,6 +110,7 @@ const AddressComponent = ({key, initialVal}) => {
             addNew
             label={'Street Address 1'}
             cols={[3, 6]}
+            initialVal={initialVal?.street}
           />
           <GridInput label={'Street Address 2'} cols={[3, 6]} />
           <GridInput label={'Phone'} cols={[3, 6]} />

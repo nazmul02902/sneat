@@ -15,13 +15,26 @@ import {
 } from '@mui/material'
 import { useEffect, useState } from 'react'
 import { Controller, useFormContext } from 'react-hook-form'
+import { useSelector } from 'react-redux'
 import { useCreateLocationMutation } from 'src/store/services/vendor'
 
-const VendorAutoComplete = ({ cols, parent, addNew, label, itemName, options = [], variable_name, control }) => {
+const VendorAutoComplete = ({
+  cols,
+  parent,
+  addNew,
+  initialVal,
+  label,
+  itemName,
+  options = [],
+  variable_name,
+  control
+}) => {
   const [value, setValue] = useState(null)
   const [open, setOpen] = useState(false)
   const copied_option = options ? [...options] : []
   const [createLocation, result] = useCreateLocationMutation()
+
+  console.log(initialVal);
 
   const defaultProps = {
     options: copied_option,
@@ -30,6 +43,7 @@ const VendorAutoComplete = ({ cols, parent, addNew, label, itemName, options = [
 
   const methods = useFormContext()
   const watch_val = methods.watch()
+  console.log(watch_val)
 
   const filter = createFilterOptions()
 
@@ -54,9 +68,36 @@ const VendorAutoComplete = ({ cols, parent, addNew, label, itemName, options = [
   }, [result.isSuccess])
 
   useEffect(() => {
-    setValue(null)
-    methods.resetField(itemName)
+    if (!initialVal) {
+      return
+    }
+    if (!copied_option?.some(each => each[variable_name] === initialVal[variable_name])) {
+      setValue(null)
+      methods.resetField(itemName)
+    }
   }, [options])
+
+  useEffect(() => {
+    if (initialVal) {
+      methods.setValue(itemName, initialVal)
+      setValue(initialVal)
+    } else {
+      methods.resetField(itemName)
+      setValue(null)
+    }
+  }, [initialVal])
+
+  // useEffect(() => {
+  //   if(!parent) return;
+  //   if (!watch_val[parent] && !initialVal) {
+  //     setValue(null)
+  //     methods.resetField(itemName)
+  //   }
+  // }, [watch_val])
+
+
+
+ 
 
   return (
     <Grid key={itemName} container item xs={12} sx={{ marginY: '10px' }}>
@@ -166,7 +207,9 @@ const VendorAutoComplete = ({ cols, parent, addNew, label, itemName, options = [
           </DialogContent>
           <DialogActions>
             <Button onClick={() => setOpen(false)}>Cancel</Button>
-            <LoadingButton loading={result.isLoading} loadingPosition={"start"} type='submit'>Save</LoadingButton>
+            <LoadingButton loading={result.isLoading} loadingPosition={'start'} type='submit'>
+              Save
+            </LoadingButton>
           </DialogActions>
         </form>
       </Dialog>
