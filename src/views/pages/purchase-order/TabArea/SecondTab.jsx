@@ -14,7 +14,7 @@ const SecondTab = () => {
         <Typography variant='h6' color={'secondary'} sx={{ marginBottom: '20px' }}>
           Billing Address
         </Typography>
-        <AddressComponent domain='billing' initialVal={vendor.billing.payload} />
+        <AddressComponent domain='billing' initialVal={vendor.billing} />
       </Grid>
       <Grid item container xs={6}>
         <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'start', gap: '30px' }}>
@@ -31,7 +31,7 @@ const SecondTab = () => {
             Copy Billing Address
           </Button>
         </Box>
-        <AddressComponent  domain='shipping' initialVal={vendor.shipping.payload} />
+        <AddressComponent  domain='shipping' initialVal={vendor.shipping} />
       </Grid>
     </Grid>
   )

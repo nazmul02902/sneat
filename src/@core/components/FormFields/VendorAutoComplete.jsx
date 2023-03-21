@@ -9,9 +9,7 @@ import {
   Dialog,
   DialogTitle,
   DialogContent,
-  DialogContentText,
   DialogActions,
-  Input
 } from '@mui/material'
 import { useEffect, useState } from 'react'
 import { Controller, useFormContext } from 'react-hook-form'
@@ -86,18 +84,6 @@ const VendorAutoComplete = ({
       setValue(null)
     }
   }, [initialVal])
-
-  // useEffect(() => {
-  //   if(!parent) return;
-  //   if (!watch_val[parent] && !initialVal) {
-  //     setValue(null)
-  //     methods.resetField(itemName)
-  //   }
-  // }, [watch_val])
-
-
-
- 
 
   return (
     <Grid key={itemName} container item xs={12} sx={{ marginY: '10px' }}>

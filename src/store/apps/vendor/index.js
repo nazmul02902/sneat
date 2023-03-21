@@ -2,18 +2,29 @@ import { createSlice } from '@reduxjs/toolkit'
 
 const initialState = {
   billing: {},
-  shipping: {}
+  shipping: {
+    country: { country_name: '' },
+    state: { state_name: '' },
+    district: { district_name: '' },
+    thana: { thana_name: '' },
+    union: { union_name: '' },
+    zipcode: { zip_code: null }
+  }
 }
 
 export const vendorSlice = createSlice({
   name: 'vendor',
   initialState,
   reducers: {
-    updateBillingAddress: (state, payload) => {
-      state.billing = payload
+    updateBillingAddress: (state, action) => {
+      state.billing = action.payload
     },
-    copyBillingToShipping: (state, payload) => {
-      state.shipping = { ...state.billing }
+    copyBillingToShipping: (state, action) => {
+      const reduce_undefined = Object.entries(state.billing)
+        .filter(([key, value]) => value !== undefined)
+        .reduce((acc, [key, value]) => ({ ...acc, [key]: value }), {})
+
+      state.shipping = Object.assign({}, state.shipping, reduce_undefined)
     },
     updateShippingAddress: (state, payload) => {
       state.shipping = payload
