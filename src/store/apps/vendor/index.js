@@ -8,7 +8,7 @@ const initialState = {
     district: { district_name: '' },
     thana: { thana_name: '' },
     union: { union_name: '' },
-    zipcode: { zip_code: null }
+    zipcode: { zip_code: '' }
   }
 }
 
