@@ -32,7 +32,7 @@ const VendorAutoComplete = ({
   const copied_option = options ? [...options] : []
   const [createLocation, result] = useCreateLocationMutation()
 
-  console.log(initialVal);
+ 
 
   const defaultProps = {
     options: copied_option,
@@ -41,7 +41,6 @@ const VendorAutoComplete = ({
 
   const methods = useFormContext()
   const watch_val = methods.watch()
-  console.log(watch_val)
 
   const filter = createFilterOptions()
 
@@ -153,15 +152,16 @@ const VendorAutoComplete = ({
                 const { inputValue } = params
                 // Suggest the creation of a new value
                 const isExisting = options.some(option => inputValue === option[variable_name])
-
+               console.log(filtered, isExisting);
+             
                 if (inputValue !== '' && !isExisting) {
                   if (variable_name) {
                     filtered.push({
                       inputValue: inputValue,
                       [variable_name]: `+ Add "${inputValue}"`
                     })
-                  } else {
-                    filtered.push(inputValue)
+                  } else{
+                    return filtered.push(inputValue);
                   }
                 }
 
