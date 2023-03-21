@@ -97,7 +97,7 @@ const VendorAutoComplete = ({
             <Autocomplete
               {...field}
               selectOnFocus
-              disabled={parent && !watch_val[parent] ? true : false}
+              disabled={parent && !watch_val[parent]?.id ? true : false}
               clearOnBlur
               handleHomeEndKeys
               freeSolo

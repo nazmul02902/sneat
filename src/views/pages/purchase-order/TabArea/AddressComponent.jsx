@@ -35,6 +35,8 @@ const AddressComponent = ({ domain, initialVal }) => {
   const onSubmit = values => {
     if (domain === 'billing') {
       dispatch(updateBillingAddress(values))
+    } else{
+      dispatch(updateShippingAddress(values))
     }
   }
 
