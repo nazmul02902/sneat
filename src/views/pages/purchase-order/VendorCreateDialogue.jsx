@@ -55,12 +55,16 @@ function SimpleDialog(props) {
         `${watchFields[2]} ${watchFields[1]}`,
         `${watchFields[0]} ${watchFields[2]}`
       ])
+    } else if (watchFields[1] && watchFields[1]) {
+      setDisplayName([`${watchFields[0]} ${watchFields[1]} `, `${watchFields[1]} ${watchFields[0]}`])
+    } else if (watchFields[0]) {
+      setDisplayName([`${watchFields[0]}`])
     }
   }, [watchFields])
 
   return (
-    <Dialog  onClose={handleClose} open={open} scroll='body' maxWidth='lg' fullWidth >
-      <DialogTitle sx={{display: "flex", alignItems:"center", justifyContent: "space-between"}}>
+    <Dialog onClose={handleClose} open={open} scroll='body' maxWidth='lg' fullWidth>
+      <DialogTitle sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
         <Typography>Add New Vendor</Typography>
         <IconButton onClick={onClose}>
           <Close />
@@ -101,7 +105,7 @@ function SimpleDialog(props) {
                         options={['Mr', 'Mrs', 'Miss', 'Dr']}
                         size='small'
                         renderInput={params => {
-                          return <TextField {...params} onChange={onChange} />
+                          return <TextField label='Salutation' {...params} onChange={onChange} />
                         }}
                         onChange={(event, values, reason) => onChange(values)}
                         value={value}
@@ -109,17 +113,17 @@ function SimpleDialog(props) {
                     )}
                   />
                 </Grid>
-                <Grid item xs={2}>
+                <Grid item xs={3}>
                   <TextField {...methods.register('first_name')} size='small' label={'First Name'} fullWidth />
                 </Grid>
-                <Grid item xs={2}>
+                <Grid item xs={3}>
                   <TextField size='small' {...methods.register('last_name')} label={'last Name'} fullWidth />
                 </Grid>
               </Grid>
 
               <VendorInput itemName='company_name' label='Company Name' />
 
-              <VendorAutoComplete addNew label='Vendor Display Name' options={displayName} itemName={'diplay_name'} />
+              <VendorAutoComplete label='Vendor Display Name' options={displayName} itemName={'diplay_name'} />
               <VendorInput itemName='email' label='Vendor Email' />
               <Grid container item xs={12} sx={{ marginY: '10px' }} spacing={2}>
                 <Grid item xs={2}>
@@ -146,9 +150,9 @@ function SimpleDialog(props) {
               )}
               {showMore && (
                 <>
-                  <GridAutocomplete label='Designation' />
-                  <GridAutocomplete label='Department' />
-                  <GridInput label='Website' />
+                  <VendorAutoComplete  label='Designation' options={[]} itemName={'designation'} />
+                  <VendorAutoComplete label='Department' options={[]} itemName={'department'} />
+                  <VendorInput itemName="website" label={'Website'} />
                 </>
               )}
             </form>

@@ -54,6 +54,8 @@ const VendorAutoComplete = ({
 
     createLocation({ ...dialogValue, parent_id: watch_val[parent]?.id })
   }
+
+  //modal states
   useEffect(() => {
     if (result.isSuccess) {
       setValue({
@@ -64,6 +66,7 @@ const VendorAutoComplete = ({
     }
   }, [result.isSuccess])
 
+  
   useEffect(() => {
     if (!initialVal) {
       return

@@ -9,7 +9,7 @@ const VendorInput = ({label, cols, itemName}) => {
         <InputLabel>{label ?? "label"}</InputLabel>
       </Grid>
       <Grid item xs={cols ? cols[1] : 6}>
-        <TextField {...register(itemName)} size='small' fullWidth />
+        <TextField {...register(itemName)} size='small' label={label} fullWidth />
       </Grid>
     </Grid>
   )
