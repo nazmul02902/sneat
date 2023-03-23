@@ -31,6 +31,9 @@ export const vendorApi = createApi({
     getStreets: builder.query({
       query: zip_id => `street-adresses?filter[union_id]=${zip_id}`
     }),
+    getGlobalAddress: builder.query({
+      query: searched_input => `global/addresses?plain_address=${searched_input}` 
+    }),
     createLocation: builder.mutation({
       query(body) {
         return {
@@ -52,5 +55,6 @@ export const {
   useGetUnionsQuery,
   useGetZipcodeQuery,
   useGetStreetsQuery,
+  useGetGlobalAddressQuery,
   useCreateLocationMutation
 } = vendorApi

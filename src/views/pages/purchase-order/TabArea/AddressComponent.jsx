@@ -1,6 +1,6 @@
-import { Download } from '@mui/icons-material'
-import { Button, Grid, Typography } from '@mui/material'
+import { Autocomplete, Grid, TextField } from '@mui/material'
 import { Box } from '@mui/system'
+import { useEffect } from 'react'
 import { FormProvider, useForm } from 'react-hook-form'
 import { useDispatch, useSelector } from 'react-redux'
 import GridInput from 'src/@core/components/FormFields/GridInput'
@@ -9,6 +9,7 @@ import { updateBillingAddress, updateShippingAddress } from 'src/store/apps/vend
 import {
   useGetCountryQuery,
   useGetDistrictsQuery,
+  useGetGlobalAddressQuery,
   useGetStatesQuery,
   useGetStreetsQuery,
   useGetThanasQuery,
@@ -19,46 +20,50 @@ import {
 const AddressComponent = ({ domain, initialVal }) => {
   const methods = useForm()
   const globalMethods = useForm()
+
   const fieldsVal = methods.watch()
-  console.log(fieldsVal);
+  const globalField = globalMethods.watch()
+  console.log(globalField)
+
   const dispatch = useDispatch()
-  const { vendor } = useSelector(state => state)
   //redux
-  const { data } = useGetCountryQuery('vendor')
-  const states = useGetStatesQuery(fieldsVal?.country?.iso2)
-  const districts = useGetDistrictsQuery(fieldsVal?.state?.id)
-  const thanas = useGetThanasQuery(fieldsVal?.district?.id)
-  const unions = useGetUnionsQuery(fieldsVal?.thana?.id)
-  const zips = useGetZipcodeQuery(fieldsVal?.union?.id)
-  const villages = useGetStreetsQuery(fieldsVal?.zipcode?.id)
+    const { data } = useGetCountryQuery('vendor')
+    const states = useGetStatesQuery(fieldsVal?.country?.iso2)
+    const districts = useGetDistrictsQuery(fieldsVal?.state?.id)
+    const thanas = useGetThanasQuery(fieldsVal?.district?.id)
+    const unions = useGetUnionsQuery(fieldsVal?.thana?.id)
+    const zips = useGetZipcodeQuery(fieldsVal?.union?.id)
+    const villages = useGetStreetsQuery(fieldsVal?.zipcode?.id)
+
+  const global = useGetGlobalAddressQuery(globalField?.address)
+  
 
   const onSubmit = values => {
     if (domain === 'billing') {
       dispatch(updateBillingAddress(values))
-    } else if(domain === 'shipping'){
+    } else if (domain === 'shipping') {
       dispatch(updateShippingAddress(values))
     }
   }
 
   return (
     <>
-      <FormProvider {...globalMethods}>
-        <form action='' style={{ width: '100%' }}>
-          <Grid item container fullWidth xs={12}>
-            <VendorAutoComplete
-              control={globalMethods.control}
-              itemName='address'
-              label='Address'
-              options={[]}
-              cols={[3, 6]}
-            />
-          </Grid>
-        </form>
-      </FormProvider>
+      <form action='' style={{ width: '100%' }}>
+        <Grid item container fullWidth xs={12}>
+          <Autocomplete
+            id='combo-box-demo'
+            options={['one', 'two']}
+            sx={{ width: 300 }}
+            size='small'
+            name="address"
+            renderInput={params => <TextField {...params} label='Movie' />}
+          />
+        </Grid>
+      </form>
       <FormProvider {...methods} key={domain}>
         <form key={domain} action='' fullWidth onBlur={methods.handleSubmit(onSubmit)}>
           <Grid item container fullWidth xs={12}>
-            <GridInput initialVal={initialVal?.attention} itemName="attention" label={'Attention'} cols={[3, 6]} />
+            <GridInput initialVal={initialVal?.attention} itemName='attention' label={'Attention'} cols={[3, 6]} />
 
             <VendorAutoComplete
               control={methods.control}
@@ -123,15 +128,20 @@ const AddressComponent = ({ domain, initialVal }) => {
               parent='zipcode'
               variable_name={'street_address_value'}
               options={villages.isSuccess && villages?.data?.data}
-              itemName='street-address'
+              itemName='streetAddress'
               addNew
               label={'Street Address 1'}
               cols={[3, 6]}
               initialVal={initialVal?.street}
             />
-            <GridInput initialVal={initialVal?.address_two} itemName="address_two" label={'Street Address 2'} cols={[3, 6]} />
-            <GridInput initialVal={initialVal?.phone} itemName="phone" label={'Phone'} cols={[3, 6]} />
-            <GridInput initialVal={initialVal?.fax} itemName="fax" label={'Fax'} cols={[3, 6]} />
+            <GridInput
+              initialVal={initialVal?.address_two}
+              itemName='address_two'
+              label={'Street Address 2'}
+              cols={[3, 6]}
+            />
+            <GridInput initialVal={initialVal?.phone} itemName='phone' label={'Phone'} cols={[3, 6]} />
+            <GridInput initialVal={initialVal?.fax} itemName='fax' label={'Fax'} cols={[3, 6]} />
           </Grid>
         </form>
       </FormProvider>
