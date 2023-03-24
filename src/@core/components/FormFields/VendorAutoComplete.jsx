@@ -191,7 +191,6 @@ const VendorAutoComplete = ({
               }
               label='title'
               type='text'
-              variant='standard'
             />
           </DialogContent>
           <DialogActions>

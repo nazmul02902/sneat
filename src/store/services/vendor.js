@@ -32,10 +32,34 @@ export const vendorApi = createApi({
       query: zip_id => `street-adresses?filter[union_id]=${zip_id}`
     }),
     getGlobalAddress: builder.query({
-      query: searched_input => `global/addresses?plain_address=${searched_input}` 
+      query: searched_input => {
+        return {
+          url: `global/addresses?plain_address=${searched_input}`,
+          headers: headers
+        }
+      }
+    }),
+    getCurrency: builder.query({
+      query: () => `addnew/autocomplete?source=currency`
+    }),
+    getTax: builder.query({
+      query: () => `addnew/autocomplete?source=tax`
+    }),
+    getPayment: builder.query({
+      query: () => `addnew/autocomplete?source=payment`
     }),
     createLocation: builder.mutation({
       query(body) {
+        return {
+          url: `addnew/autocomplete`,
+          method: 'POST',
+          body,
+          headers: headers
+        }
+      }
+    }),
+    createCurTaxPay: builder.mutation({
+      query: body => {
         return {
           url: `addnew/autocomplete`,
           method: 'POST',
@@ -56,5 +80,9 @@ export const {
   useGetZipcodeQuery,
   useGetStreetsQuery,
   useGetGlobalAddressQuery,
+  useGetCurrencyQuery,
+  useGetTaxQuery,
+  useGetPaymentQuery,
+  useCreateCurTaxPayMutation,
   useCreateLocationMutation
 } = vendorApi

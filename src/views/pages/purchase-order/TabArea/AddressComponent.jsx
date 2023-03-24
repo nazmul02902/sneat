@@ -1,11 +1,16 @@
-import { Autocomplete, Grid, TextField } from '@mui/material'
+import { Autocomplete, Grid, InputLabel, TextField } from '@mui/material'
 import { Box } from '@mui/system'
-import { useEffect } from 'react'
-import { FormProvider, useForm } from 'react-hook-form'
+import { useEffect, useState } from 'react'
+import { Controller, FormProvider, useForm } from 'react-hook-form'
 import { useDispatch, useSelector } from 'react-redux'
 import GridInput from 'src/@core/components/FormFields/GridInput'
 import VendorAutoComplete from 'src/@core/components/FormFields/VendorAutoComplete'
-import { updateBillingAddress, updateShippingAddress } from 'src/store/apps/vendor'
+import {
+  updateBillingAddress,
+  updateGlobalInBillingAddress,
+  updateGlobalInShippingAddress,
+  updateShippingAddress
+} from 'src/store/apps/vendor'
 import {
   useGetCountryQuery,
   useGetDistrictsQuery,
@@ -19,24 +24,22 @@ import {
 
 const AddressComponent = ({ domain, initialVal }) => {
   const methods = useForm()
-  const globalMethods = useForm()
+  const [searchTerm, setSearchTerm] = useState('')
+  // const [initialVal, setInitialVal] = useState(initialValue);
 
   const fieldsVal = methods.watch()
-  const globalField = globalMethods.watch()
-  console.log(globalField)
-
   const dispatch = useDispatch()
+  const [timeoutId, setTimeoutId] = useState(null)
   //redux
-    const { data } = useGetCountryQuery('vendor')
-    const states = useGetStatesQuery(fieldsVal?.country?.iso2)
-    const districts = useGetDistrictsQuery(fieldsVal?.state?.id)
-    const thanas = useGetThanasQuery(fieldsVal?.district?.id)
-    const unions = useGetUnionsQuery(fieldsVal?.thana?.id)
-    const zips = useGetZipcodeQuery(fieldsVal?.union?.id)
-    const villages = useGetStreetsQuery(fieldsVal?.zipcode?.id)
-
-  const global = useGetGlobalAddressQuery(globalField?.address)
-  
+  const { data } = useGetCountryQuery('vendor')
+  const states = useGetStatesQuery(fieldsVal?.country?.iso2)
+  const districts = useGetDistrictsQuery(fieldsVal?.state?.id)
+  const thanas = useGetThanasQuery(fieldsVal?.district?.id)
+  const unions = useGetUnionsQuery(fieldsVal?.thana?.id)
+  const zips = useGetZipcodeQuery(fieldsVal?.union?.id)
+  const villages = useGetStreetsQuery(fieldsVal?.zipcode?.id)
+  const globalData = useGetGlobalAddressQuery(searchTerm)
+  console.log(globalData)
 
   const onSubmit = values => {
     if (domain === 'billing') {
@@ -46,23 +49,45 @@ const AddressComponent = ({ domain, initialVal }) => {
     }
   }
 
+  const handleInputChange = (event, val, reason) => {
+    if (reason !== 'input') return
+    if (timeoutId) {
+      clearTimeout(timeoutId)
+    }
+    setTimeoutId(
+      setTimeout(() => {
+        setSearchTerm(val)
+      }, 500)
+    )
+  }
+
   return (
     <>
-      <form action='' style={{ width: '100%' }}>
-        <Grid item container fullWidth xs={12}>
-          <Autocomplete
-            id='combo-box-demo'
-            options={['one', 'two']}
-            sx={{ width: 300 }}
-            size='small'
-            name="address"
-            renderInput={params => <TextField {...params} label='Movie' />}
-          />
-        </Grid>
-      </form>
       <FormProvider {...methods} key={domain}>
         <form key={domain} action='' fullWidth onBlur={methods.handleSubmit(onSubmit)}>
           <Grid item container fullWidth xs={12}>
+            <Grid container item xs={12} sx={{ marginY: '10px' }}>
+              <Grid item xs={3}>
+                <InputLabel>Address</InputLabel>
+              </Grid>
+              <Grid item xs={6}>
+                <Autocomplete
+                  options={globalData.isSuccess ? globalData?.data?.data : []}
+                  size='small'
+                  getOptionLabel={option => option.plain_address}
+                  onChange={(e, newVal) => {
+                    if (domain === 'billing') {
+                      dispatch(updateGlobalInBillingAddress(newVal?.full_address))
+                    } else if (domain === 'shipping') {
+                      dispatch(updateGlobalInShippingAddress(newVal?.full_address))
+                    }
+                  }}
+                  onInputChange={handleInputChange}
+                  id='combo-box-demo'
+                  renderInput={params => <TextField {...params} label='Type Address' />}
+                />
+              </Grid>
+            </Grid>
             <GridInput initialVal={initialVal?.attention} itemName='attention' label={'Attention'} cols={[3, 6]} />
 
             <VendorAutoComplete

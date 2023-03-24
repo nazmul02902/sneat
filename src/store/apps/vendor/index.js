@@ -37,20 +37,21 @@ export const vendorSlice = createSlice({
       state.billing = action.payload
     },
     copyBillingToShipping: (state, action) => {
-      // const reduce_undefined = Object.entries(state.billing)
-      //   .filter(([key, value]) => value !== undefined)
-      //   .reduce((acc, [key, value]) => ({ ...acc, [key]: value }), {})
-
-      // state.shipping = Object.assign({}, state.shipping, reduce_undefined)
       state.shipping = state.billing
     },
     updateShippingAddress: (state, action) => {
       state.shipping = action.payload
-    }
+    },
+    updateGlobalInBillingAddress: (state, action) => {
+      state.billing = action.payload
+    },
+    updateGlobalInShippingAddress: (state, action) => {
+      state.shipping = action.payload
+    },
   }
 })
 
 // Action creators are generated for each case reducer function
-export const { updateBillingAddress, copyBillingToShipping, updateShippingAddress } = vendorSlice.actions
+export const { updateBillingAddress, copyBillingToShipping, updateShippingAddress, updateGlobalInBillingAddress, updateGlobalInShippingAddress } = vendorSlice.actions
 
 export default vendorSlice.reducer
