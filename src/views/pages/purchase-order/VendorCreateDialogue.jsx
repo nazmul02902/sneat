@@ -65,7 +65,7 @@ function SimpleDialog(props) {
 
   return (
     <Dialog onClose={handleClose} open={open} scroll='body' maxWidth='lg' fullWidth>
-      <DialogTitle sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' , padding: "5px 15px" }}>
+      <DialogTitle sx={{ display: 'flex', alignItems: 'center', borderBottom: "1px solid", justifyContent: 'space-between' , padding: "5px 15px" }}>
         <Typography>Add New Vendor</Typography>
         <IconButton sx={{color: "red"}} onClick={onClose}>
           <Close />

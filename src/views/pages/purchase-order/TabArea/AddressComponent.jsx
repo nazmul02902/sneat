@@ -100,6 +100,7 @@ const AddressComponent = ({ domain, initialVal }) => {
               addNew
               itemName='state'
               refetch={states.refetch}
+              isFetching={states.isFetching}
               options={states.isSuccess && states?.data?.data}
               variable_name={'state_name'}
               label={'State'}
@@ -116,6 +117,7 @@ const AddressComponent = ({ domain, initialVal }) => {
               cols={[3, 6]}
               initialVal={initialVal?.district ?? ''}
               refetch={districts.refetch}
+              isFetching={districts.isFetching}
             />
             <VendorAutoComplete
               parent='district'
@@ -127,6 +129,7 @@ const AddressComponent = ({ domain, initialVal }) => {
               cols={[3, 6]}
               initialVal={initialVal?.thana ?? ''}
               refetch={thanas.refetch}
+              isFetching={thanas.isFetching}
             />
             <VendorAutoComplete
               parent='thana'
@@ -138,6 +141,7 @@ const AddressComponent = ({ domain, initialVal }) => {
               cols={[3, 6]}
               initialVal={initialVal?.union ?? ''}
               refetch={unions.refetch}
+              isFetching={unions.isFetching}
             />
             <VendorAutoComplete
               parent='union'
@@ -149,6 +153,7 @@ const AddressComponent = ({ domain, initialVal }) => {
               cols={[3, 6]}
               initialVal={initialVal?.zipcode ?? ''}
               refetch={zips.refetch}
+              isFetching={zips.isFetching}
             />
             <VendorAutoComplete
               parent='zipcode'
@@ -160,6 +165,7 @@ const AddressComponent = ({ domain, initialVal }) => {
               cols={[3, 6]}
               initialVal={initialVal?.streetAddress}
               refetch={villages.refetch}
+              isFetching={villages.isFetching}
             />
             <GridInput
               initialVal={initialVal?.address_two}

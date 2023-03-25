@@ -29,7 +29,8 @@ const VendorAutoComplete = ({
   options = [],
   variable_name,
   control,
-  refetch
+  refetch,
+  isFetching
 }) => {
   const [value, setValue] = useState(null)
   const [open, setOpen] = useState(false)
@@ -41,6 +42,7 @@ const VendorAutoComplete = ({
       : [{ [variable_name]: `+ Add New ${label}`, isCustom: true }]
   }
   const [createLocation, result] = useCreateLocationMutation()
+  console.log(result);
 
   const defaultProps = {
     options: copied_option,
@@ -64,7 +66,7 @@ const VendorAutoComplete = ({
 
   useEffect(() => {
     if (!initialVal) return
-    if (result.isUninitialized) {
+    if (result.isUninitialized || (result.status === "fulfilled" && !isFetching)) {
       if (!copied_option?.some(each => each[variable_name] === initialVal[variable_name])) {
         setValue(null)
         methods.resetField(itemName)
