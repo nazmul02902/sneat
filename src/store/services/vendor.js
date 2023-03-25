@@ -14,7 +14,7 @@ export const vendorApi = createApi({
       query: () => `countries`
     }),
     getStates: builder.query({
-      query: country_code => `states?filter[country_iso2]=${country_code}`
+      query: country_code => `states?filter[country_iso2]=${country_code}`,
     }),
     getDistricts: builder.query({
       query: state_id => `districts?filter[state_id]=${state_id}`
@@ -56,7 +56,7 @@ export const vendorApi = createApi({
           body,
           headers: headers
         }
-      }
+      },
     }),
     createCurTaxPay: builder.mutation({
       query: body => {

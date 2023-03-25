@@ -1,5 +1,6 @@
 const navigation = () => {
   return [
+   
     {
       title: 'Dashboards',
       icon: 'bx:home-circle',
@@ -22,6 +23,16 @@ const navigation = () => {
     },
     {
       sectionTitle: 'Apps & Pages'
+    },
+    {
+      title: 'Bderp Pages',
+      icon: 'bx:dock-top',
+      children: [
+        {
+          title: 'Process Order',
+          path: '/bderp/purchase-order'
+        },
+      ]
     },
     {
       title: 'Email',
@@ -171,10 +182,7 @@ const navigation = () => {
           title: 'Pricing',
           path: '/pages/pricing'
         },
-        {
-          title: 'Process Order',
-          path: '/pages/purchase-order'
-        },
+       
         {
           title: 'Miscellaneous',
           children: [

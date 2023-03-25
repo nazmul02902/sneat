@@ -3,8 +3,8 @@ import { Box } from '@mui/system'
 import { useEffect, useState } from 'react'
 import { Controller, FormProvider, useForm } from 'react-hook-form'
 import { useDispatch, useSelector } from 'react-redux'
-import GridInput from 'src/@core/components/FormFields/GridInput'
-import VendorAutoComplete from 'src/@core/components/FormFields/VendorAutoComplete'
+import GridInput from 'src/bderp-@core/components/FormFields/GridInput'
+import VendorAutoComplete from 'src/bderp-@core/components/FormFields/VendorAutoComplete'
 import {
   updateBillingAddress,
   updateGlobalInBillingAddress,
@@ -32,14 +32,13 @@ const AddressComponent = ({ domain, initialVal }) => {
   const [timeoutId, setTimeoutId] = useState(null)
   //redux
   const { data } = useGetCountryQuery('vendor')
-  const states = useGetStatesQuery(fieldsVal?.country?.iso2)
+  const states = useGetStatesQuery(fieldsVal?.country && fieldsVal?.country?.iso2)
   const districts = useGetDistrictsQuery(fieldsVal?.state?.id)
   const thanas = useGetThanasQuery(fieldsVal?.district?.id)
   const unions = useGetUnionsQuery(fieldsVal?.thana?.id)
   const zips = useGetZipcodeQuery(fieldsVal?.union?.id)
   const villages = useGetStreetsQuery(fieldsVal?.zipcode?.id)
   const globalData = useGetGlobalAddressQuery(searchTerm)
-  console.log(globalData)
 
   const onSubmit = values => {
     if (domain === 'billing') {
@@ -67,10 +66,7 @@ const AddressComponent = ({ domain, initialVal }) => {
         <form key={domain} action='' fullWidth onBlur={methods.handleSubmit(onSubmit)}>
           <Grid item container fullWidth xs={12}>
             <Grid container item xs={12} sx={{ marginY: '10px' }}>
-              <Grid item xs={3}>
-                <InputLabel>Address</InputLabel>
-              </Grid>
-              <Grid item xs={6}>
+              <Grid item xs={9}>
                 <Autocomplete
                   options={globalData.isSuccess ? globalData?.data?.data : []}
                   size='small'
@@ -84,7 +80,7 @@ const AddressComponent = ({ domain, initialVal }) => {
                   }}
                   onInputChange={handleInputChange}
                   id='combo-box-demo'
-                  renderInput={params => <TextField {...params} label='Type Address' />}
+                  renderInput={params => <TextField {...params} label='Type Address/City/Zipcode' />}
                 />
               </Grid>
             </Grid>
@@ -103,6 +99,7 @@ const AddressComponent = ({ domain, initialVal }) => {
               parent='country'
               addNew
               itemName='state'
+              refetch={states.refetch}
               options={states.isSuccess && states?.data?.data}
               variable_name={'state_name'}
               label={'State'}
@@ -118,6 +115,7 @@ const AddressComponent = ({ domain, initialVal }) => {
               variable_name='district_name'
               cols={[3, 6]}
               initialVal={initialVal?.district ?? ''}
+              refetch={districts.refetch}
             />
             <VendorAutoComplete
               parent='district'
@@ -128,6 +126,7 @@ const AddressComponent = ({ domain, initialVal }) => {
               label={'City/Thana'}
               cols={[3, 6]}
               initialVal={initialVal?.thana ?? ''}
+              refetch={thanas.refetch}
             />
             <VendorAutoComplete
               parent='thana'
@@ -138,6 +137,7 @@ const AddressComponent = ({ domain, initialVal }) => {
               label={'Union/Village'}
               cols={[3, 6]}
               initialVal={initialVal?.union ?? ''}
+              refetch={unions.refetch}
             />
             <VendorAutoComplete
               parent='union'
@@ -148,6 +148,7 @@ const AddressComponent = ({ domain, initialVal }) => {
               label={'Zipcode'}
               cols={[3, 6]}
               initialVal={initialVal?.zipcode ?? ''}
+              refetch={zips.refetch}
             />
             <VendorAutoComplete
               parent='zipcode'
@@ -155,9 +156,10 @@ const AddressComponent = ({ domain, initialVal }) => {
               options={villages.isSuccess && villages?.data?.data}
               itemName='streetAddress'
               addNew
-              label={'Street Address 1'}
+              label={'Street Address'}
               cols={[3, 6]}
-              initialVal={initialVal?.street}
+              initialVal={initialVal?.streetAddress}
+              refetch={villages.refetch}
             />
             <GridInput
               initialVal={initialVal?.address_two}

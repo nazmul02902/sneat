@@ -1,7 +1,7 @@
 import { Download } from '@mui/icons-material'
 import { Box, Button, Grid, Typography } from '@mui/material'
 import { useDispatch, useSelector } from 'react-redux'
-import GridAutocomplete from 'src/@core/components/FormFields/GridAutocomplete'
+import GridAutocomplete from 'src/bderp-@core/components/FormFields/GridAutocomplete'
 import { copyBillingToShipping } from 'src/store/apps/vendor'
 import AddressComponent from './AddressComponent'
 
@@ -14,7 +14,7 @@ const SecondTab = () => {
         <Typography variant='h6' color={'secondary'} sx={{ marginBottom: '20px' }}>
           Billing Address
         </Typography>
-        
+
         <AddressComponent domain='billing' initialVal={vendor.billing} />
       </Grid>
       <Grid item container xs={6}>
@@ -32,7 +32,7 @@ const SecondTab = () => {
             Copy Billing Address
           </Button>
         </Box>
-        <AddressComponent  domain='shipping' initialVal={vendor.shipping} />
+        <AddressComponent domain='shipping' initialVal={vendor.shipping} />
       </Grid>
     </Grid>
   )

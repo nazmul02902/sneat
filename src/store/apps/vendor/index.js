@@ -9,7 +9,7 @@ const initialState = {
     thana: { thana_name: '' },
     union: { union_name: '' },
     zipcode: { zip_code: '' },
-    address_one: '',
+    streetAddress: '',
     address_two: '',
     phone: '',
     fax: ''
@@ -22,7 +22,7 @@ const initialState = {
     thana: { thana_name: '' },
     union: { union_name: '' },
     zipcode: { zip_code: '' },
-    address_one: '',
+    streetAddress: '',
     address_two: '',
     phone: '',
     fax: ''

@@ -1,3 +1,4 @@
+import { Close } from '@mui/icons-material'
 import { LoadingButton } from '@mui/lab'
 import {
   Grid,
@@ -10,7 +11,9 @@ import {
   DialogTitle,
   DialogContent,
   DialogActions,
+  IconButton
 } from '@mui/material'
+import { Box } from '@mui/system'
 import { useEffect, useState } from 'react'
 import { Controller, useFormContext } from 'react-hook-form'
 import { useSelector } from 'react-redux'
@@ -25,14 +28,19 @@ const VendorAutoComplete = ({
   itemName,
   options = [],
   variable_name,
-  control
+  control,
+  refetch
 }) => {
   const [value, setValue] = useState(null)
   const [open, setOpen] = useState(false)
-  const copied_option = options ? [...options] : []
-  const [createLocation, result] = useCreateLocationMutation()
+  let copied_option = options ? [...options] : []
 
- 
+  if (addNew) {
+    copied_option = options
+      ? [...options, { [variable_name]: `+ Add New ${label}`, isCustom: true }]
+      : [{ [variable_name]: `+ Add New ${label}`, isCustom: true }]
+  }
+  const [createLocation, result] = useCreateLocationMutation()
 
   const defaultProps = {
     options: copied_option,
@@ -51,31 +59,18 @@ const VendorAutoComplete = ({
 
   const handleSubmit = event => {
     event.preventDefault()
-
     createLocation({ ...dialogValue, parent_id: watch_val[parent]?.id })
   }
 
-  //modal states
   useEffect(() => {
-    if (result.isSuccess) {
-      setValue({
-        ...result?.data?.data
-      })
-      methods.setValue(itemName, result?.data?.data)
-      setOpen(false)
+    if (!initialVal) return
+    if (result.isUninitialized) {
+      if (!copied_option?.some(each => each[variable_name] === initialVal[variable_name])) {
+        setValue(null)
+        methods.resetField(itemName)
+      }
     }
-  }, [result.isSuccess])
-
-  
-  useEffect(() => {
-    if (!initialVal) {
-      return
-    }
-    if (!copied_option?.some(each => each[variable_name] === initialVal[variable_name])) {
-      setValue(null)
-      methods.resetField(itemName)
-    }
-  }, [options])
+  }, [watch_val[parent]])
 
   useEffect(() => {
     if (initialVal) {
@@ -86,6 +81,24 @@ const VendorAutoComplete = ({
       setValue(null)
     }
   }, [initialVal])
+
+  //modal states
+  useEffect(() => {
+    if (result.isSuccess) {
+      if (refetch) {
+        if (parent === 'country') {
+          refetch(watch_val[parent]?.iso2)
+        } else {
+          refetch(watch_val[parent]?.id)
+        }
+        setOpen(false)
+      }
+      setValue({
+        ...result?.data?.data
+      })
+      methods.setValue(itemName, result?.data?.data)
+    }
+  }, [result.isSuccess])
 
   return (
     <Grid key={itemName} container item xs={12} sx={{ marginY: '10px' }}>
@@ -104,6 +117,13 @@ const VendorAutoComplete = ({
               clearOnBlur
               handleHomeEndKeys
               freeSolo
+              renderOption={(props, option) => {
+                return (
+                  <Box {...props} component='li' sx={{ color: option.isCustom && 'blue' }}>
+                    {option[variable_name]}
+                  </Box>
+                )
+              }}
               value={value}
               {...defaultProps}
               size='small'
@@ -118,7 +138,7 @@ const VendorAutoComplete = ({
                   return
                 }
                 const isExist = newValue
-                  ? copied_option?.some(each => each[variable_name].includes(newValue[variable_name]))
+                  ? copied_option?.some(each => each[variable_name].includes(newValue[variable_name]) && !each.isCustom)
                   : false
 
                 if (typeof newValue === 'string') {
@@ -155,16 +175,16 @@ const VendorAutoComplete = ({
                 const { inputValue } = params
                 // Suggest the creation of a new value
                 const isExisting = options.some(option => inputValue === option[variable_name])
-               console.log(filtered, isExisting);
-             
+
                 if (inputValue !== '' && !isExisting) {
                   if (variable_name) {
                     filtered.push({
                       inputValue: inputValue,
-                      [variable_name]: `+ Add "${inputValue}"`
+                      [variable_name]: `+ Add "${inputValue}"`,
+                      isCustom: true
                     })
-                  } else{
-                    return filtered.push(inputValue);
+                  } else {
+                    return filtered.push(inputValue)
                   }
                 }
 
@@ -174,13 +194,33 @@ const VendorAutoComplete = ({
           )}
         />
       </Grid>
-      <Dialog open={open} onClose={() => setOpen(false)}>
+      <Dialog
+        open={open}
+        onClose={(event, reason) => {
+          if (reason === 'backdropClick') return
+          setOpen(false)
+        }}
+      >
         <form onSubmit={handleSubmit}>
-          <DialogTitle>Add New</DialogTitle>
+          <DialogTitle
+            sx={{
+              borderBottom: '1px solid',
+              padding: '5px 10px',
+              display: 'flex',
+              justifyContent: 'space-between',
+              alignItems: 'center'
+            }}
+          >
+            <Box variant='span'>Add New {label}</Box>
+            <IconButton sx={{ color: 'red' }} onClick={() => setOpen(false)}>
+              <Close />
+            </IconButton>
+          </DialogTitle>
           <DialogContent>
             <TextField
               autoFocus
               margin='dense'
+              size='small'
               id='name'
               value={dialogValue.name}
               onChange={event =>

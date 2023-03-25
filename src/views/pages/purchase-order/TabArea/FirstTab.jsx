@@ -1,18 +1,22 @@
 import { Autocomplete, Grid, InputLabel, TextField } from '@mui/material'
 import { FormProvider, useForm } from 'react-hook-form'
-import GridAutocomplete from 'src/@core/components/FormFields/GridAutocomplete'
-import VendorAutoComplete from 'src/@core/components/FormFields/VendorAutoComplete'
-import { useGetCurrencyQuery, useGetCurTaxPayQuery, useGetPaymentQuery, useGetTaxQuery } from 'src/store/services/vendor'
+import GridAutocomplete from 'src/bderp-@core/components/FormFields/GridAutocomplete'
+import VendorAutoComplete from 'src/bderp-@core/components/FormFields/VendorAutoComplete'
+import {
+  useGetCurrencyQuery,
+  useGetCurTaxPayQuery,
+  useGetPaymentQuery,
+  useGetTaxQuery
+} from 'src/store/services/vendor'
 
 const FirstTab = () => {
   const methods = useForm()
-
 
   const currency = useGetCurrencyQuery()
   const tax = useGetTaxQuery()
   const payment = useGetPaymentQuery()
 
-  const onSubmit = (values) => {
+  const onSubmit = values => {
     console.log(values)
   }
   return (
@@ -25,7 +29,6 @@ const FirstTab = () => {
             itemName='currency'
             label='Currency'
             options={currency?.data?.data}
-            cols={[3, 6]}
           />
           <VendorAutoComplete
             control={methods.control}
@@ -33,7 +36,6 @@ const FirstTab = () => {
             itemName='tax'
             label='Tax Rate'
             options={tax?.data?.data}
-            cols={[3, 6]}
           />
           <VendorAutoComplete
             control={methods.control}
@@ -41,7 +43,6 @@ const FirstTab = () => {
             itemName='payment'
             label='Payment Term'
             options={payment?.data?.data}
-            cols={[3, 6]}
           />
         </Grid>
       </form>

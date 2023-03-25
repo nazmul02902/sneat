@@ -18,11 +18,11 @@ import {
   Typography
 } from '@mui/material'
 import TabArea from './TabArea'
-import GridAutocomplete from 'src/@core/components/FormFields/GridAutocomplete'
-import GridInput from 'src/@core/components/FormFields/GridInput'
+import GridAutocomplete from 'src/bderp-@core/components/FormFields/GridAutocomplete'
+import GridInput from 'src/bderp-@core/components/FormFields/GridInput'
 import { useForm, FormProvider, Controller } from 'react-hook-form'
-import VendorAutoComplete from 'src/@core/components/FormFields/VendorAutoComplete'
-import VendorInput from 'src/@core/components/FormFields/VendorInput'
+import VendorAutoComplete from 'src/bderp-@core/components/FormFields/VendorAutoComplete'
+import VendorInput from 'src/bderp-@core/components/FormFields/VendorInput'
 import { Close } from '@mui/icons-material'
 
 function SimpleDialog(props) {
@@ -34,7 +34,8 @@ function SimpleDialog(props) {
   //   return <Slide direction="down" ref={ref} {...props} />;
   // });
 
-  const handleClose = () => {
+  const handleClose = (event, reason) => {
+    if(reason === "backdropClick") return
     onClose()
   }
   //form
@@ -64,9 +65,9 @@ function SimpleDialog(props) {
 
   return (
     <Dialog onClose={handleClose} open={open} scroll='body' maxWidth='lg' fullWidth>
-      <DialogTitle sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+      <DialogTitle sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' , padding: "5px 15px" }}>
         <Typography>Add New Vendor</Typography>
-        <IconButton onClick={onClose}>
+        <IconButton sx={{color: "red"}} onClick={onClose}>
           <Close />
         </IconButton>
       </DialogTitle>
@@ -150,9 +151,9 @@ function SimpleDialog(props) {
               )}
               {showMore && (
                 <>
-                  <VendorAutoComplete  label='Designation' options={[]} itemName={'designation'} />
+                  <VendorAutoComplete label='Designation' options={[]} itemName={'designation'} />
                   <VendorAutoComplete label='Department' options={[]} itemName={'department'} />
-                  <VendorInput itemName="website" label={'Website'} />
+                  <VendorInput itemName='website' label={'Website'} />
                 </>
               )}
             </form>
