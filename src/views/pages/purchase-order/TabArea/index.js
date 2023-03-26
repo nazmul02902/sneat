@@ -19,10 +19,11 @@ function TabPanel(props) {
       id={`simple-tabpanel-${index}`}
       aria-labelledby={`simple-tab-${index}`}
       {...other}
+      sx={{padding: 0}}
     >
       {value === index && (
-        <Box sx={{ p: 3 }}>
-          <Typography>{children}</Typography>
+        <Box sx={{ py: 3 }}>
+          <Typography >{children}</Typography>
         </Box>
       )}
     </div>
@@ -51,9 +52,9 @@ export default function TabArea() {
 
   return (
     <Box sx={{ width: '100%' }}>
-      <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
+      <Box sx={{ borderBottom: 1, borderColor: 'divider'}}>
         <Tabs value={value} onChange={handleChange} aria-label='basic tabs example'>
-          <Tab label='Other Details' {...a11yProps(0)} />
+          <Tab sx={{pl:0}} label='Other Details' {...a11yProps(0)} />
           <Tab label='Address' {...a11yProps(1)} />
           <Tab label='Remarks' {...a11yProps(2)} />
         </Tabs>

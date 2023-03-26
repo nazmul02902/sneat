@@ -48,6 +48,12 @@ export const vendorApi = createApi({
     getPayment: builder.query({
       query: () => `addnew/autocomplete?source=payment`
     }),
+    getDesignation: builder.query({
+      query: () => `addnew/autocomplete?source=designation`
+    }),
+    getDept: builder.query({
+      query: () => `addnew/autocomplete?source=department`
+    }),
     createLocation: builder.mutation({
       query(body) {
         return {
@@ -83,6 +89,8 @@ export const {
   useGetCurrencyQuery,
   useGetTaxQuery,
   useGetPaymentQuery,
+  useGetDesignationQuery,
+  useGetDeptQuery,
   useCreateCurTaxPayMutation,
   useCreateLocationMutation
 } = vendorApi

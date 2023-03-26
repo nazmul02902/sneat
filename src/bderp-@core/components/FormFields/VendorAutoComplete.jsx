@@ -1,4 +1,4 @@
-import { Close } from '@mui/icons-material'
+import { ArrowDownward, Close } from '@mui/icons-material'
 import { LoadingButton } from '@mui/lab'
 import {
   Grid,
@@ -11,7 +11,8 @@ import {
   DialogTitle,
   DialogContent,
   DialogActions,
-  IconButton
+  IconButton,
+  InputAdornment
 } from '@mui/material'
 import { Box } from '@mui/system'
 import { useEffect, useState } from 'react'
@@ -42,7 +43,6 @@ const VendorAutoComplete = ({
       : [{ [variable_name]: `+ Add New ${label}`, isCustom: true }]
   }
   const [createLocation, result] = useCreateLocationMutation()
-  console.log(result);
 
   const defaultProps = {
     options: copied_option,
@@ -103,7 +103,7 @@ const VendorAutoComplete = ({
   }, [result.isSuccess])
 
   return (
-    <Grid key={itemName} container item xs={12} sx={{ marginY: '10px' }}>
+    <Grid key={itemName} container item xs={12} >
       <Grid item xs={cols ? cols[0] : 2}>
         <InputLabel>{label ? label : 'label'}</InputLabel>
       </Grid>
@@ -118,15 +118,14 @@ const VendorAutoComplete = ({
               disabled={parent && !watch_val[parent]?.id ? true : false}
               clearOnBlur
               handleHomeEndKeys
-              freeSolo
               renderOption={(props, option) => {
                 return (
                   <Box {...props} component='li' sx={{ color: option.isCustom && 'blue' }}>
-                    {option[variable_name]}
+                    {variable_name ? option[variable_name] : option}
                   </Box>
                 )
               }}
-              value={value}
+              value={value !== "" ? value : null}
               {...defaultProps}
               size='small'
               fullWidth
@@ -180,9 +179,10 @@ const VendorAutoComplete = ({
 
                 if (inputValue !== '' && !isExisting) {
                   if (variable_name) {
+                    filtered.pop();
                     filtered.push({
                       inputValue: inputValue,
-                      [variable_name]: `+ Add "${inputValue}"`,
+                      [variable_name]: `+ Add New ${label}(${inputValue})`,
                       isCustom: true
                     })
                   } else {

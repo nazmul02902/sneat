@@ -5,6 +5,7 @@ import { Controller, FormProvider, useForm } from 'react-hook-form'
 import { useDispatch, useSelector } from 'react-redux'
 import GridInput from 'src/bderp-@core/components/FormFields/GridInput'
 import VendorAutoComplete from 'src/bderp-@core/components/FormFields/VendorAutoComplete'
+import VendorInput from 'src/bderp-@core/components/FormFields/VendorInput'
 import {
   updateBillingAddress,
   updateGlobalInBillingAddress,
@@ -64,8 +65,8 @@ const AddressComponent = ({ domain, initialVal }) => {
     <>
       <FormProvider {...methods} key={domain}>
         <form key={domain} action='' fullWidth onBlur={methods.handleSubmit(onSubmit)}>
-          <Grid item container fullWidth xs={12}>
-            <Grid container item xs={12} sx={{ marginY: '10px' }}>
+          <Grid item container fullWidth xs={12} rowGap={2}>
+            <Grid container item xs={12} >
               <Grid item xs={9}>
                 <Autocomplete
                   options={globalData.isSuccess ? globalData?.data?.data : []}
@@ -84,7 +85,7 @@ const AddressComponent = ({ domain, initialVal }) => {
                 />
               </Grid>
             </Grid>
-            <GridInput initialVal={initialVal?.attention} itemName='attention' label={'Attention'} cols={[3, 6]} />
+            <VendorInput initialVal={initialVal?.attention} itemName='attention' label={'Attention'} cols={[3, 6]} />
 
             <VendorAutoComplete
               control={methods.control}
@@ -167,14 +168,14 @@ const AddressComponent = ({ domain, initialVal }) => {
               refetch={villages.refetch}
               isFetching={villages.isFetching}
             />
-            <GridInput
+            <VendorInput
               initialVal={initialVal?.address_two}
               itemName='address_two'
               label={'Street Address 2'}
               cols={[3, 6]}
             />
-            <GridInput initialVal={initialVal?.phone} itemName='phone' label={'Phone'} cols={[3, 6]} />
-            <GridInput initialVal={initialVal?.fax} itemName='fax' label={'Fax'} cols={[3, 6]} />
+            <VendorInput initialVal={initialVal?.phone} itemName='phone' label={'Phone'} cols={[3, 6]} />
+            <VendorInput initialVal={initialVal?.fax} itemName='fax' label={'Fax'} cols={[3, 6]} />
           </Grid>
         </form>
       </FormProvider>

@@ -22,7 +22,7 @@ const FirstTab = () => {
   return (
     <FormProvider {...methods}>
       <form onSubmit={methods.handleSubmit(onSubmit)}>
-        <Grid container>
+        <Grid container rowGap={2}>
           <VendorAutoComplete
             control={methods.control}
             variable_name='name'
