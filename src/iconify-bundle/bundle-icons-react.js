@@ -1,3 +1,6 @@
+'use strict'
+Object.defineProperty(exports, '__esModule', { value: true })
+
 /**
  * This is an advanced example for creating icon bundles for Iconify SVG Framework.
  *
@@ -10,13 +13,12 @@
  * This example uses Iconify Tools to import and clean up icons.
  * For Iconify Tools documentation visit https://docs.iconify.design/tools/tools2/
  */
-import { promises as fs } from 'fs'
-import { dirname } from 'path'
+const fs_1 = require('fs')
+const path_1 = require('path')
 
 // Installation: npm install --save-dev @iconify/tools @iconify/utils @iconify/json @iconify/iconify
-import { importDirectory, cleanupSVG, parseColors, isEmptyColor, runSVGO } from '@iconify/tools'
-import { getIcons, stringToIcon, minifyIconSet } from '@iconify/utils'
-
+const tools_1 = require('@iconify/tools')
+const utils_1 = require('@iconify/utils')
 /* eslint-enable */
 const sources = {
   json: [
@@ -90,9 +92,9 @@ const target = 'src/iconify-bundle/icons-bundle-react.js'
     : "import { addCollection } from '" + component + "';\n\n"
 
   // Create directory for output if missing
-  const dir = dirname(target)
+  const dir = (0, path_1.dirname)(target)
   try {
-    await fs.mkdir(dir, {
+    await fs_1.promises.mkdir(dir, {
       recursive: true
     })
   } catch (err) {
@@ -125,11 +127,11 @@ const target = 'src/iconify-bundle/icons-bundle-react.js'
 
       // Load icon set
       const filename = typeof item === 'string' ? item : item.filename
-      let content = JSON.parse(await fs.readFile(filename, 'utf8'))
+      let content = JSON.parse(await fs_1.promises.readFile(filename, 'utf8'))
 
       // Filter icons
       if (typeof item !== 'string' && item.icons?.length) {
-        const filteredContent = getIcons(content, item.icons)
+        const filteredContent = (0, utils_1.getIcons)(content, item.icons)
         if (!filteredContent) {
           throw new Error(`Cannot find required icons in ${filename}`)
         }
@@ -138,7 +140,7 @@ const target = 'src/iconify-bundle/icons-bundle-react.js'
 
       // Remove metadata and add to bundle
       removeMetaData(content)
-      minifyIconSet(content)
+      ;(0, utils_1.minifyIconSet)(content)
       bundle += 'addCollection(' + JSON.stringify(content) + ');\n'
       console.log(`Bundled icons from ${filename}`)
     }
@@ -152,7 +154,7 @@ const target = 'src/iconify-bundle/icons-bundle-react.js'
       const source = sources.svg[i]
 
       // Import icons
-      const iconSet = await importDirectory(source.dir, {
+      const iconSet = await (0, tools_1.importDirectory)(source.dir, {
         prefix: source.prefix
       })
 
@@ -174,20 +176,20 @@ const target = 'src/iconify-bundle/icons-bundle-react.js'
         // Clean up and optimise icons
         try {
           // Clean up icon code
-          await cleanupSVG(svg)
+          await (0, tools_1.cleanupSVG)(svg)
           if (source.monotone) {
             // Replace color with currentColor, add if missing
             // If icon is not monotone, remove this code
-            await parseColors(svg, {
+            await (0, tools_1.parseColors)(svg, {
               defaultColor: 'currentColor',
               callback: (attr, colorStr, color) => {
-                return !color || isEmptyColor(color) ? colorStr : 'currentColor'
+                return !color || (0, tools_1.isEmptyColor)(color) ? colorStr : 'currentColor'
               }
             })
           }
 
           // Optimise
-          await runSVGO(svg)
+          await (0, tools_1.runSVGO)(svg)
         } catch (err) {
           // Invalid icon
           console.error(`Error parsing ${name} from ${source.dir}:`, err)
@@ -208,7 +210,7 @@ const target = 'src/iconify-bundle/icons-bundle-react.js'
   }
 
   // Save to file
-  await fs.writeFile(target, bundle, 'utf8')
+  await fs_1.promises.writeFile(target, bundle, 'utf8')
   console.log(`Saved ${target} (${bundle.length} bytes)`)
 })().catch(err => {
   console.error(err)
@@ -230,7 +232,7 @@ function removeMetaData(iconSet) {
 function organizeIconsList(icons) {
   const sorted = Object.create(null)
   icons.forEach(icon => {
-    const item = stringToIcon(icon)
+    const item = (0, utils_1.stringToIcon)(icon)
     if (!item) {
       return
     }

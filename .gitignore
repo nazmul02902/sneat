@@ -7,7 +7,6 @@
 
 # testing
 /coverage
-/.gitpod.yml
 
 # next.js
 /.next/
