@@ -27,6 +27,16 @@ const navigation = (): VerticalNavItemsType => {
       sectionTitle: 'Apps & Pages'
     },
     {
+      title: 'Bderp Pages',
+      icon: 'bx:dock-top',
+      children: [
+        {
+          title: 'Process Order',
+          path: '/bderp/purchase-order'
+        },
+      ]
+    },
+    {
       title: 'Email',
       icon: 'bx:envelope',
       path: '/apps/email'

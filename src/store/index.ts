@@ -8,6 +8,10 @@ import email from 'src/store/apps/email'
 import invoice from 'src/store/apps/invoice'
 import calendar from 'src/store/apps/calendar'
 import permissions from 'src/store/apps/permissions'
+import vendor from 'src/store/apps/vendor'
+import purchaseOrder from 'src/store/apps/purchase-order'
+
+import { vendorApi } from './service/vendor'
 
 export const store = configureStore({
   reducer: {
@@ -16,7 +20,10 @@ export const store = configureStore({
     email,
     invoice,
     calendar,
-    permissions
+    permissions,
+    vendor,
+    purchaseOrder,
+    [vendorApi.reducerPath]: vendorApi.reducer,
   },
   middleware: getDefaultMiddleware =>
     getDefaultMiddleware({
