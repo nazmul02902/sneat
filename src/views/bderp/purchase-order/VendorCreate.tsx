@@ -6,6 +6,7 @@ import Dialog from '@mui/material/Dialog'
 import { Box } from '@mui/system'
 import {
   Autocomplete,
+  Chip,
   FormControlLabel,
   Grid,
   IconButton,
@@ -36,7 +37,6 @@ function SimpleDialog(props:any) {
   //redux
   const designation = useGetDesignationQuery("designation")
   const dept = useGetDeptQuery("dept")
-  console.log(dept)
 
   const handleClose = (event:any, reason:any) => {
     if (reason === 'backdropClick') return
@@ -46,7 +46,7 @@ function SimpleDialog(props:any) {
   const methods = useForm()
 
   const onSubmit = (values:any) => {
-    console.log(values)
+    // console.log(values)
   }
 
   const wf = methods.watch(['salutation', 'first_name', 'last_name', 'company_name'])
@@ -191,11 +191,9 @@ export default function VendorCreate() {
   }
 
   return (
-    <div>
-      <Button variant='text' onClick={handleClickOpen}>
-        + Add New
-      </Button>
+    <>
+      <Chip size='small' variant='outlined' sx={{mt:1}} color='primary' label={"+ Add New"} onClick={handleClickOpen}/>
       <SimpleDialog open={open} onClose={handleClose} />
-    </div>
+    </>
   )
 }

@@ -12,6 +12,7 @@ import vendor from 'src/store/apps/vendor'
 import purchaseOrder from 'src/store/apps/purchase-order'
 
 import { vendorApi } from './service/vendor'
+import { purchaseOrderApi } from './service/purchaseOrder'
 
 export const store = configureStore({
   reducer: {
@@ -24,6 +25,7 @@ export const store = configureStore({
     vendor,
     purchaseOrder,
     [vendorApi.reducerPath]: vendorApi.reducer,
+    [purchaseOrderApi.reducerPath]: purchaseOrderApi.reducer
   },
   middleware: getDefaultMiddleware =>
     getDefaultMiddleware({

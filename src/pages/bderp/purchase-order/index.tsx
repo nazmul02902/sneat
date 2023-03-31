@@ -19,9 +19,14 @@ import { Box } from '@mui/system'
 import { useState } from 'react'
 import VendorCreate from 'src/views/bderp/purchase-order/VendorCreate'
 import DynamicForm from 'src/views/bderp/purchase-order/DynamicForm'
+import { useGetCustomersQuery, useGetVendorsQuery, useGetWareHousesQuery } from 'src/store/service/purchaseOrder'
 
 const PurchaseOrder = () => {
   const [showAddressSection, setShowAddressSection] = useState(false);
+
+  const vendors = useGetVendorsQuery("porder");
+  const wareHouse = useGetWareHousesQuery("wareHouse")
+  const customers = useGetCustomersQuery("customer")
   
   return (
       <Grid container spacing={6}>
@@ -40,8 +45,9 @@ const PurchaseOrder = () => {
                       fullWidth
                       disablePortal
                       id='combo-box-demo'
-                      options={[{ label: 'one' }, { label: 'two' }]}
-                      renderInput={params => <TextField {...params} label='Movie' />}
+                      options={vendors?.data?.data ?? []}
+                      renderInput={params => <TextField {...params} label='Vendors Name' />}
+                      getOptionLabel={(option:any) => option?.display_name}
                     />
                     <VendorCreate/>
                   </Grid>
@@ -65,12 +71,13 @@ const PurchaseOrder = () => {
                       fullWidth
                       disablePortal
                       id='combo-box-demo'
-                      options={[{ label: 'one' }, { label: 'two' }]}
-                      renderInput={params => <TextField {...params} label='Movie' />}
+                      options={customers?.data?.data}
+                      renderInput={params => <TextField {...params} label='WareHouses' />}
+                      getOptionLabel={(option:any) => option?.display_name}
                     />
                     {/* <AddressDialague /> */}
                     <Box>
-                      <Box sx={{ position: 'relative' }}>
+                      <Box sx={{ position: 'relative', mt:2 }}>
                         <Typography
                           variant='h6'
                           onClick={() => setShowAddressSection(!showAddressSection)}
