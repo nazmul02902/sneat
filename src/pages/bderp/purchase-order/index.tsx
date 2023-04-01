@@ -3,7 +3,7 @@ import Grid from '@mui/material/Grid'
 import Typography from '@mui/material/Typography'
 import CardHeader from '@mui/material/CardHeader'
 import CardContent from '@mui/material/CardContent'
-import {  ModeEdit } from '@mui/icons-material'
+import { ModeEdit } from '@mui/icons-material'
 import {
   Autocomplete,
   Button,
@@ -16,24 +16,46 @@ import {
   TextField
 } from '@mui/material'
 import { Box } from '@mui/system'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import VendorCreate from 'src/views/bderp/purchase-order/VendorCreate'
 import DynamicForm from 'src/views/bderp/purchase-order/DynamicForm'
 import { useGetCustomersQuery, useGetVendorsQuery, useGetWareHousesQuery } from 'src/store/service/purchaseOrder'
+import { useForm, Controller } from 'react-hook-form'
 
 const PurchaseOrder = () => {
-  const [showAddressSection, setShowAddressSection] = useState(false);
+  const [showAddressSection, setShowAddressSection] = useState(false)
+  const [deliveryAddress, setDeliveryAddress] = useState<any>(null)
+  console.log(deliveryAddress)
 
-  const vendors = useGetVendorsQuery("porder");
-  const wareHouse = useGetWareHousesQuery("wareHouse")
-  const customers = useGetCustomersQuery("customer")
-  
+  const methods = useForm()
+
+  const vendors = useGetVendorsQuery('porder')
+  const wareHouse = useGetWareHousesQuery<any>('wareHouse')
+  const customers = useGetCustomersQuery<any>('customer')
+
+  const delivery_to = methods.watch('delivery_to')
+
+  const onSubmit = (values: any) => {
+    console.log(values)
+  }
+
+  console.log(wareHouse)
+
+  useEffect(() => {
+    if (delivery_to === 'warehouse' && wareHouse.status === 'fulfilled') {
+      setDeliveryAddress(wareHouse?.data?.data[0])
+    } else {
+      setDeliveryAddress(null)
+    }
+  }, [delivery_to, wareHouse.status])
+
   return (
-      <Grid container spacing={6}>
-        <Grid item xs={12}>
-          <Card>
-            <CardHeader title='New Purchase Order' />
-            <CardContent>
+    <Grid container spacing={6}>
+      <Grid item xs={12}>
+        <Card>
+          <CardHeader title='New Purchase Order' />
+          <CardContent>
+            <Box component={'form'} onBlur={methods.handleSubmit(onSubmit)}>
               <Grid container>
                 <Grid container item xs={12} sx={{ marginY: '10px' }}>
                   <Grid item xs={2}>
@@ -47,9 +69,9 @@ const PurchaseOrder = () => {
                       id='combo-box-demo'
                       options={vendors?.data?.data ?? []}
                       renderInput={params => <TextField {...params} label='Vendors Name' />}
-                      getOptionLabel={(option:any) => option?.display_name}
+                      getOptionLabel={(option: any) => option?.display_name}
                     />
-                    <VendorCreate/>
+                    <VendorCreate />
                   </Grid>
                 </Grid>
                 <Grid container item xs={12} sx={{ marginBottom: '60px' }}>
@@ -57,72 +79,82 @@ const PurchaseOrder = () => {
                     <InputLabel>Delivery To</InputLabel>
                   </Grid>
                   <Grid item xs={6}>
-                    <RadioGroup
-                      aria-labelledby='demo-radio-buttons-group-label'
-                      defaultValue='warehouse'
-                      name='radio-buttons-group'
-                      row
-                    >
-                      <FormControlLabel value='warehouse' control={<Radio />} label='Warehouse/Shop' />
-                      <FormControlLabel value='customer' control={<Radio />} label='Customer' />
-                    </RadioGroup>
+                    <Controller
+                      control={methods.control}
+                      name='delivery_to'
+                      defaultValue={'warehouse'}
+                      render={({ field }) => (
+                        <RadioGroup {...field} row>
+                          <FormControlLabel value='warehouse' control={<Radio />} label='Warehouse/Shop' />
+                          <FormControlLabel value='customer' control={<Radio />} label='Customer' />
+                        </RadioGroup>
+                      )}
+                    />
+
                     <Autocomplete
                       size='small'
                       fullWidth
                       disablePortal
                       id='combo-box-demo'
-                      options={customers?.data?.data}
-                      renderInput={params => <TextField {...params} label='WareHouses' />}
-                      getOptionLabel={(option:any) => option?.display_name}
+                      // defaultValue={wareHouse.isSuccess &&  wareHouse?.data?.data[0]}
+                      value={deliveryAddress}
+                      onChange={(_: any, option: any) => {
+                        setDeliveryAddress(option)
+                      }}
+                      options={delivery_to === 'warehouse' ? wareHouse?.data?.data : customers?.data?.data}
+                      renderInput={(params: any) => (
+                        <TextField {...params} label={delivery_to === 'warehouse' ? 'Warehouse' : 'Customer'} />
+                      )}
+                      getOptionLabel={(option: any) =>
+                        delivery_to === 'warehouse' ? option?.address : option?.display_name
+                      }
                     />
-                    {/* <AddressDialague /> */}
-                    <Box>
-                      <Box sx={{ position: 'relative', mt:2 }}>
-                        <Typography
-                          variant='h6'
-                          onClick={() => setShowAddressSection(!showAddressSection)}
-                          sx={{
-                            display: 'flex',
-                            alignItems: 'center',
-                            cursor: 'pointer',
-                            gap: 1,
-                            marginBottom: '10px'
-                          }}
-                        >
-                          Tree <ModeEdit />
-                        </Typography>
-                        {showAddressSection && (
-                          <Stack
-                            divider={<Divider />}
-                            spacing={1}
+                    {delivery_to === 'warehouse' && (
+                      <Box>
+                        <Box sx={{ position: 'relative', mt: 2 }}>
+                          <Typography
+                            variant='h6'
+                            onClick={() => setShowAddressSection(!showAddressSection)}
                             sx={{
-                              padding: '10px',
-                              borderRadius: '5px',
-                              position: 'absolute',
-                              bgcolor: 'background.default',
-                              width: '350px',
-                              maxHeight: '350px'
+                              display: 'flex',
+                              alignItems: 'center',
+                              cursor: 'pointer',
+                              gap: 1,
+                              marginBottom: '10px'
                             }}
                           >
-                            <Typography>pargaragodid</Typography>
-                            <Typography>pargaragodid</Typography>
-                            <Typography>pargaragodid</Typography>
-                            {/* <AddressDialague /> */}
-                          </Stack>
-                        )}
+                            {deliveryAddress?.address} <ModeEdit />
+                          </Typography>
+                          {showAddressSection && (
+                            <Stack
+                              divider={<Divider />}
+                              spacing={1}
+                              sx={{
+                                padding: '10px',
+                                borderRadius: '5px',
+                                position: 'absolute',
+                                bgcolor: 'background.default',
+                                width: '350px',
+                                maxHeight: '350px'
+                              }}
+                            >
+                              <Box>
+                                <Typography variant='body1'>{deliveryAddress?.description}</Typography>
+                                <Typography variant='body1'>{deliveryAddress?.email}</Typography>
+                              </Box>
+                              {/* <AddressDialague /> */}
+                            </Stack>
+                          )}
+                        </Box>
+                        <Typography variant='body1'>{deliveryAddress?.description}</Typography>
+                        <Typography variant='body1'>{deliveryAddress?.email}</Typography>
                       </Box>
-                      <Typography  variant='body1'>
-                        House
-                      </Typography>
-                      <Typography variant='body1'>Dhaka, Dhaka</Typography>
-                      <Typography variant='body1'>bangladesh, 28383</Typography>
-                      <Typography variant='body1'>3838487747484</Typography>
-                    </Box>
+                    )}
                   </Grid>
                 </Grid>
                 <Grid container item xs={12} sx={{ marginY: '10px' }}>
                   <Grid item xs={2}>
-                    <InputLabel>Input label</InputLabel>
+                    <InputLabel>Purchase Order</InputLabel>
                   </Grid>
                   <Grid item xs={6}>
                     <TextField fullWidth size='small' />
@@ -130,7 +162,7 @@ const PurchaseOrder = () => {
                 </Grid>
                 <Grid container item xs={12} sx={{ marginY: '10px' }}>
                   <Grid item xs={2}>
-                    <InputLabel>Input label</InputLabel>
+                    <InputLabel>Reference</InputLabel>
                   </Grid>
                   <Grid item xs={6}>
                     <TextField fullWidth size='small' />
@@ -138,7 +170,7 @@ const PurchaseOrder = () => {
                 </Grid>
                 <Grid container item xs={12} sx={{ marginY: '10px' }}>
                   <Grid item xs={2}>
-                    <InputLabel>Input label</InputLabel>
+                    <InputLabel>Expected Delivery Date</InputLabel>
                   </Grid>
                   <Grid item xs={6}>
                     <TextField fullWidth size='small' />
@@ -146,7 +178,7 @@ const PurchaseOrder = () => {
                 </Grid>
                 <Grid container item xs={12} sx={{ marginY: '10px' }}>
                   <Grid item xs={2}>
-                    <InputLabel>Input label</InputLabel>
+                    <InputLabel>Payment Terms</InputLabel>
                   </Grid>
                   <Grid item xs={6}>
                     <TextField fullWidth size='small' />
@@ -154,7 +186,7 @@ const PurchaseOrder = () => {
                 </Grid>
                 <Grid container item xs={12} sx={{ marginY: '10px' }}>
                   <Grid item xs={2}>
-                    <InputLabel>Payment</InputLabel>
+                    <InputLabel>Payment Terms</InputLabel>
                   </Grid>
                   <Grid item xs={6}>
                     <Autocomplete
@@ -167,12 +199,13 @@ const PurchaseOrder = () => {
                     />
                   </Grid>
                 </Grid>
-                <DynamicForm/>
+                <DynamicForm />
               </Grid>
-            </CardContent>
-          </Card>
-        </Grid>
+            </Box>
+          </CardContent>
+        </Card>
       </Grid>
+    </Grid>
   )
 }
 
