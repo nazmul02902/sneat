@@ -53,11 +53,11 @@ const PurchaseOrder = () => {
     <Grid container spacing={6}>
       <Grid item xs={12}>
         <Card>
-          <CardHeader title='New Purchase Order' />
+          <CardHeader title='New Purchase Order' sx={{borderBottom: "1px solid", margin: 0, paddingY: 3}} />
           <CardContent>
             <Box component={'form'} onBlur={methods.handleSubmit(onSubmit)}>
-              <Grid container>
-                <Grid container item xs={12} sx={{ marginY: '10px' }}>
+              <Grid container rowGap={2} py={3}>
+                <Grid container item xs={12} >
                   <Grid item xs={2}>
                     <InputLabel>Vendor's Name</InputLabel>
                   </Grid>
@@ -74,7 +74,7 @@ const PurchaseOrder = () => {
                     <VendorCreate />
                   </Grid>
                 </Grid>
-                <Grid container item xs={12} sx={{ marginBottom: '60px' }}>
+                <Grid container item xs={12} >
                   <Grid item xs={2}>
                     <InputLabel>Delivery To</InputLabel>
                   </Grid>
@@ -109,7 +109,7 @@ const PurchaseOrder = () => {
                         delivery_to === 'warehouse' ? option?.address : option?.display_name
                       }
                     />
-                    {delivery_to === 'warehouse' && (
+                    {delivery_to === 'warehouse' && deliveryAddress && (
                       <Box>
                         <Box sx={{ position: 'relative', mt: 2 }}>
                           <Typography
@@ -192,7 +192,7 @@ const PurchaseOrder = () => {
                     )}
                   </Grid>
                 </Grid>
-                <Grid container item xs={12} sx={{ marginY: '10px' }}>
+                <Grid container item xs={12} >
                   <Grid item xs={2}>
                     <InputLabel>Purchase Order</InputLabel>
                   </Grid>
@@ -200,7 +200,7 @@ const PurchaseOrder = () => {
                     <TextField fullWidth size='small' />
                   </Grid>
                 </Grid>
-                <Grid container item xs={12} sx={{ marginY: '10px' }}>
+                <Grid container item xs={12} >
                   <Grid item xs={2}>
                     <InputLabel>Reference</InputLabel>
                   </Grid>
@@ -208,15 +208,15 @@ const PurchaseOrder = () => {
                     <TextField fullWidth size='small' />
                   </Grid>
                 </Grid>
-                <Grid container item xs={12} sx={{ marginY: '10px' }}>
+                <Grid container item xs={12} >
                   <Grid item xs={2}>
-                    <InputLabel>Expected Delivery Date</InputLabel>
+                    <InputLabel>Expected Delivery </InputLabel>
                   </Grid>
                   <Grid item xs={6}>
                     <TextField fullWidth size='small' />
                   </Grid>
                 </Grid>
-                <Grid container item xs={12} sx={{ marginY: '10px' }}>
+                <Grid container item xs={12} >
                   <Grid item xs={2}>
                     <InputLabel>Payment Terms</InputLabel>
                   </Grid>
@@ -224,7 +224,7 @@ const PurchaseOrder = () => {
                     <TextField fullWidth size='small' />
                   </Grid>
                 </Grid>
-                <Grid container item xs={12} sx={{ marginY: '10px' }}>
+                <Grid container item xs={12} >
                   <Grid item xs={2}>
                     <InputLabel>Payment Terms</InputLabel>
                   </Grid>

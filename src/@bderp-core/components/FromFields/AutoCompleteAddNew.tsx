@@ -236,10 +236,10 @@ const AutoCompleteAddNew = ({
             />
           </DialogContent>
           <DialogActions>
-            <Button onClick={() => setOpen(false)}>Cancel</Button>
-            {/* <LoadingButton loading={result.isLoading} loadingPosition={'start'} type='submit'>
+            {/* <Button onClick={() => setOpen(false)}>Cancel</Button> */}
+            <LoadingButton loading={result.isLoading} loadingPosition={'start'} type='submit'>
               Save
-            </LoadingButton> */}
+            </LoadingButton>
           </DialogActions>
         </form>
       </Dialog>
