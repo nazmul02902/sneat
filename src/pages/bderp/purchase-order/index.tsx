@@ -113,7 +113,6 @@ const PurchaseOrder = () => {
                       <Box>
                         <Box sx={{ position: 'relative', mt: 2 }}>
                           <Typography
-                            variant='h6'
                             onClick={() => setShowAddressSection(!showAddressSection)}
                             sx={{
                               display: 'flex',
@@ -125,7 +124,48 @@ const PurchaseOrder = () => {
                           >
                             {deliveryAddress?.address} <ModeEdit />
                           </Typography>
-                          {showAddressSection && (
+                          {/* {showAddressSection && (
+                            <Stack
+                              divider={<Divider />}
+                              spacing={1}
+                              sx={{
+                                padding: '10px',
+                                borderRadius: '5px',
+                                position: 'absolute',
+                                bgcolor: 'background.default',
+                                width: '350px',
+                                maxHeight: '350px',
+                                zIndex: 2,
+                                cursor: 'pointer'
+                              }}
+                            >
+                              <Box>
+                                <Typography variant='body1'>{deliveryAddress?.description}</Typography>
+                                <Typography variant='body1'>{deliveryAddress?.email}</Typography>
+                              </Box>
+                            </Stack>
+                          )} */}
+                        </Box>
+                        <Typography variant='body1'>{deliveryAddress?.description}</Typography>
+                        <Typography variant='body1'>{deliveryAddress?.email}</Typography>
+                      </Box>
+                    )}
+                    {delivery_to === 'customer' && deliveryAddress && (
+                      <Box>
+                        <Box sx={{ position: 'relative', mt: 2 }}>
+                          <Typography
+                            onClick={() => setShowAddressSection(!showAddressSection)}
+                            sx={{
+                              display: 'flex',
+                              alignItems: 'center',
+                              cursor: 'pointer',
+                              gap: 1,
+                              marginBottom: '10px'
+                            }}
+                          >
+                            {deliveryAddress?.display_name} <ModeEdit />
+                          </Typography>
+                          {/* {showAddressSection && (
                             <Stack
                               divider={<Divider />}
                               spacing={1}
@@ -139,15 +179,15 @@ const PurchaseOrder = () => {
                               }}
                             >
                               <Box>
-                                <Typography variant='body1'>{deliveryAddress?.description}</Typography>
-                                <Typography variant='body1'>{deliveryAddress?.email}</Typography>
+                                <Typography variant='body1'>{deliveryAddress?.company_name}</Typography>
                               </Box>
-                              {/* <AddressDialague /> */}
+                              <Box>
+                                <Typography variant='body1'>{deliveryAddress?.company_name}</Typography>
+                              </Box>
                             </Stack>
-                          )}
+                          )} */}
                         </Box>
-                        <Typography variant='body1'>{deliveryAddress?.description}</Typography>
-                        <Typography variant='body1'>{deliveryAddress?.email}</Typography>
+                        <Typography variant='body1'>{deliveryAddress?.company_name}</Typography>
                       </Box>
                     )}
                   </Grid>
