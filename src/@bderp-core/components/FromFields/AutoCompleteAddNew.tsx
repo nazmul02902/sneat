@@ -103,9 +103,11 @@ const AutoCompleteAddNew = ({
 
   return (
     <Grid key={itemName} container item xs={12}>
-      <Grid item xs={cols ? cols[0] : 2}>
-        <InputLabel>{label ? label : 'label'}</InputLabel>
-      </Grid>
+      {cols[0] !== 0 && (
+        <Grid item xs={cols ? cols[0] : 2}>
+          <InputLabel>{label ? label : 'label'}</InputLabel>
+        </Grid>
+      )}
       <Grid item xs={cols ? cols[1] : 6}>
         <Controller
           control={control}

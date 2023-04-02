@@ -29,7 +29,19 @@ export const purchaseOrderApi = createApi({
             headers: headers
         })
     }),
+    getProducts: builder.query<any,string>({
+      query: () => ({
+        url: `products`,
+        headers: headers
+      })
+    }),
+    getPaymentTerm: builder.query<any,string>({
+      query: () => ({
+        url: `payment-term`,
+        headers: headers
+      })
+    })
   })
 })
 
-export const { useGetVendorsQuery, useGetWareHousesQuery, useGetCustomersQuery } = purchaseOrderApi
+export const { useGetVendorsQuery, useGetWareHousesQuery, useGetCustomersQuery, useGetProductsQuery, useGetPaymentTermQuery } = purchaseOrderApi

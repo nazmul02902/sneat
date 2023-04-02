@@ -19,7 +19,7 @@ import { Box } from '@mui/system'
 import { useEffect, useState } from 'react'
 import VendorCreate from 'src/views/bderp/purchase-order/VendorCreate'
 import DynamicForm from 'src/views/bderp/purchase-order/DynamicForm'
-import { useGetCustomersQuery, useGetVendorsQuery, useGetWareHousesQuery } from 'src/store/service/purchaseOrder'
+import { useGetCustomersQuery, useGetPaymentTermQuery, useGetVendorsQuery, useGetWareHousesQuery } from 'src/store/service/purchaseOrder'
 import { useForm, Controller } from 'react-hook-form'
 
 const PurchaseOrder = () => {
@@ -32,6 +32,7 @@ const PurchaseOrder = () => {
   const vendors = useGetVendorsQuery('porder')
   const wareHouse = useGetWareHousesQuery<any>('wareHouse')
   const customers = useGetCustomersQuery<any>('customer')
+  const paymentTerm = useGetPaymentTermQuery<any>('paymentTerm')
 
   const delivery_to = methods.watch('delivery_to')
 
@@ -234,14 +235,15 @@ const PurchaseOrder = () => {
                       fullWidth
                       disablePortal
                       id='combo-box-demo'
-                      options={[{ label: 'one' }, { label: 'two' }]}
-                      renderInput={params => <TextField {...params} label='Movie' />}
+                      options={paymentTerm?.data?.data}
+                      renderInput={params => <TextField {...params} label='Payment Term' />}
+                      getOptionLabel={(option:any) => option.name}
                     />
                   </Grid>
                 </Grid>
-                <DynamicForm />
               </Grid>
             </Box>
+                <DynamicForm />
           </CardContent>
         </Card>
       </Grid>
