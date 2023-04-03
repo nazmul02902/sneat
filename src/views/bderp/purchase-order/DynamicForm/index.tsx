@@ -16,7 +16,6 @@ const { Grid, Typography, Button, TextField, Autocomplete } = require('@mui/mate
 const DynamicForm = () => {
   const dispatch = useAppDispatch()
   const { items } = useAppSelector(state => state.purchaseOrder)
-  const [isFormOk, setIsFormOk] = useState(false)
 
   return (
     <>

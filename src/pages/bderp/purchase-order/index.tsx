@@ -32,9 +32,12 @@ import {
   useGetWareHousesQuery
 } from 'src/store/service/purchaseOrder'
 import { useForm, Controller } from 'react-hook-form'
+import SummaryPart from './SummeryPart'
+import AddressSelectingSection from './AddressSelectingSection'
 
 const PurchaseOrder = () => {
   const [showAddressSection, setShowAddressSection] = useState(false)
+  const [showWarehouseAddress, setShowWarehouseAddress] = useState(false)
   const [deliveryAddress, setDeliveryAddress] = useState<any>(null)
   console.log(deliveryAddress)
 
@@ -84,23 +87,20 @@ const PurchaseOrder = () => {
                       getOptionLabel={(option: any) => option?.display_name}
                     />
                     <VendorCreate />
-                    <List
-                      sx={{
-                        border: '1px solid',
-                        borderRadius: '3px',
-                        height: '200px',
-                        overflow: 'auto',
-                        position: 'relative',
-                        marginY: 2
-                      }}
-                      disablePadding
-                    >
-                      <IconButton sx={{ position: 'absolute', right: 2, zIndex: 2, top: 3 }}>
-                        <Edit />
-                      </IconButton>
-                      <ListItemButton>
+                    {showAddressSection ? (
+                      <AddressSelectingSection setShowAddress={setShowAddressSection} />
+                    ) : (
+                      <List sx={{ display: 'flex', justifyContent: 'space-between' }}>
                         <ListItemText
-                          primary='John Doe'
+                          primary={
+                            <>
+                              Billing Address
+                              <IconButton onClick={() => setShowAddressSection(true)}>
+                                {' '}
+                                <Edit />
+                              </IconButton>
+                            </>
+                          }
                           secondary={
                             <>
                               nazmul hasan
@@ -113,11 +113,16 @@ const PurchaseOrder = () => {
                             </>
                           }
                         />
-                      </ListItemButton>
-                      <Divider />
-                      <ListItemButton>
                         <ListItemText
-                          primary='John Doe'
+                          primary={
+                            <>
+                              Shipping Address
+                              <IconButton onClick={() => setShowAddressSection(true)}>
+                                {' '}
+                                <Edit />
+                              </IconButton>
+                            </>
+                          }
                           secondary={
                             <>
                               nazmul hasan
@@ -130,80 +135,8 @@ const PurchaseOrder = () => {
                             </>
                           }
                         />
-                      </ListItemButton>
-                      <Divider />
-                      <ListItemButton>
-                        <ListItemText
-                          primary='John Doe'
-                          secondary={
-                            <>
-                              nazmul hasan
-                              <br />
-                              B5
-                              <br />
-                              Dhaka
-                              <br />
-                              Dhaka bivag, 1219
-                            </>
-                          }
-                        />
-                      </ListItemButton>
-                      <Button
-                        size='small'
-                        variant='contained'
-                        color='primary'
-                        sx={{ position: 'sticky', bottom: 0, left: 2, textAlign: 'start', cursor: 'pointer' }}
-                      >
-                        {' '}
-                        + Add New
-                      </Button>
-                    </List>
-                    <List sx={{ display: 'flex', justifyContent: 'space-between' }}>
-                      <ListItemText
-                        primary={
-                          <>
-                            Billing Address
-                            <IconButton>
-                              {' '}
-                              <Edit />
-                            </IconButton>
-                          </>
-                        }
-                        secondary={
-                          <>
-                            nazmul hasan
-                            <br />
-                            B5
-                            <br />
-                            Dhaka
-                            <br />
-                            Dhaka bivag, 1219
-                          </>
-                        }
-                      />
-                      <ListItemText
-                        primary={
-                          <>
-                            Shipping Address
-                            <IconButton>
-                              {' '}
-                              <Edit />
-                            </IconButton>
-                          </>
-                        }
-                        secondary={
-                          <>
-                            nazmul hasan
-                            <br />
-                            B5
-                            <br />
-                            Dhaka
-                            <br />
-                            Dhaka bivag, 1219
-                          </>
-                        }
-                      />
-                    </List>
+                      </List>
+                    )}
                   </Grid>
                 </Grid>
                 <Grid container item xs={12}>
@@ -241,57 +174,63 @@ const PurchaseOrder = () => {
                         delivery_to === 'warehouse' ? option?.address : option?.display_name
                       }
                     />
-                    {delivery_to === 'warehouse' && deliveryAddress && (
-                      <List>
-                        <ListItemText
-                          primary={
-                            <>
-                              {deliveryAddress?.address}
-                              <IconButton>
-                                {' '}
-                                <Edit />
-                              </IconButton>
-                            </>
-                          }
-                          secondary={
-                            <>
-                              nazmul hasan
-                              <br />
-                              B5
-                              <br />
-                              Dhaka
-                              <br />
-                              Dhaka bivag, 1219
-                            </>
-                          }
-                        />
-                      </List>
-                    )}
-                    {delivery_to === 'customer' && deliveryAddress && (
-                    <List>
-                    <ListItemText
-                      primary={
-                        <>
-                          {deliveryAddress?.display_name}
-                          <IconButton>
-                            {' '}
-                            <Edit />
-                          </IconButton>
-                        </>
-                      }
-                      secondary={
-                        <>
-                          nazmul hasan
-                          <br />
-                          B5
-                          <br />
-                          Dhaka
-                          <br />
-                          Dhaka bivag, 1219
-                        </>
-                      }
-                    />
-                  </List>
+                    {showWarehouseAddress ? (
+                      <AddressSelectingSection setShowAddress={setShowWarehouseAddress} />
+                    ) : (
+                      <>
+                        {delivery_to === 'warehouse' && deliveryAddress && (
+                          <List>
+                            <ListItemText
+                              primary={
+                                <>
+                                  {deliveryAddress?.address}
+                                  <IconButton onClick={() => setShowWarehouseAddress(true)}>
+                                    {' '}
+                                    <Edit />
+                                  </IconButton>
+                                </>
+                              }
+                              secondary={
+                                <>
+                                  nazmul hasan
+                                  <br />
+                                  B5
+                                  <br />
+                                  Dhaka
+                                  <br />
+                                  Dhaka bivag, 1219
+                                </>
+                              }
+                            />
+                          </List>
+                        )}
+                        {delivery_to === 'customer' && deliveryAddress && (
+                          <List>
+                            <ListItemText
+                              primary={
+                                <>
+                                  {deliveryAddress?.display_name}
+                                  <IconButton onClick={() => setShowWarehouseAddress(true)}>
+                                    {' '}
+                                    <Edit />
+                                  </IconButton>
+                                </>
+                              }
+                              secondary={
+                                <>
+                                  nazmul hasan
+                                  <br />
+                                  B5
+                                  <br />
+                                  Dhaka
+                                  <br />
+                                  Dhaka bivag, 1219
+                                </>
+                              }
+                            />
+                          </List>
+                        )}
+                      </>
                     )}
                   </Grid>
                 </Grid>
@@ -346,6 +285,8 @@ const PurchaseOrder = () => {
               </Grid>
             </Box>
             <DynamicForm />
+            <Divider sx={{ marginY: 5 }} />
+            <SummaryPart />
           </CardContent>
         </Card>
       </Grid>
