@@ -1,6 +1,6 @@
 import { yupResolver } from '@hookform/resolvers/yup'
 import { CheckCircle, CopyAll, Delete, Edit, Wallpaper } from '@mui/icons-material'
-import { IconButton } from '@mui/material'
+import { Fab, IconButton } from '@mui/material'
 const { Grid, Typography, Button, TextField, Autocomplete } = require('@mui/material')
 import { Box } from '@mui/system'
 import { useEffect, useRef } from 'react'
@@ -124,21 +124,21 @@ const EachFormItem = ({ item }: any) => {
           <Grid item xs={1} sx={{paddingTop: "10px !important"}}>
             38373
           </Grid>
-          <Grid item xs={2} sx={{ display: 'flex' }}>
-            <IconButton color='secondary'>
+          <Grid item  xs={2} sx={{display:"flex", gap: 2}}>
+            <Fab color='primary' size='small'>
               <CopyAll />
-            </IconButton>
-            <IconButton color='secondary' type='submit'>
+            </Fab>
+            <Fab color='success' type='submit' size='small'>
               <CheckCircle />
-            </IconButton>
-            <IconButton color='secondary'>
+            </Fab>
+            <Fab  size='small'>
               <Delete
                 sx={{ cursor: 'pointer' }}
                 onClick={() => {
                   dispatch(removeItem(item.id))
                 }}
               />
-            </IconButton>
+            </Fab>
           </Grid>
         </Grid>
       </Box>

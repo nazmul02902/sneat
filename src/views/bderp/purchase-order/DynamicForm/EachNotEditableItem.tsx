@@ -1,5 +1,5 @@
 import { CopyAll, Delete, Edit, Wallpaper } from '@mui/icons-material'
-import { IconButton } from '@mui/material'
+import { Fab, IconButton } from '@mui/material'
 const { Grid, Typography } = require('@mui/material')
 import { Box } from '@mui/system'
 import { useAppDispatch, useAppSelector } from 'src/store/apps/hooks'
@@ -28,7 +28,7 @@ const EachNotEditableItem = ({ item }: any) => {
           <Grid item xs={4} sx={{textAlign: "right"}}>
           {item?.unit_price}
           </Grid>
-          <Grid item xs={12} >
+          <Grid item xs={12} sx={{textAlign: "start"}}>
           {item?.input}
           </Grid>
         </Grid>
@@ -38,12 +38,13 @@ const EachNotEditableItem = ({ item }: any) => {
         <Grid item xs={1}>
           38373
         </Grid>
-        <Grid item xs={2} sx={{ display: 'flex' }}>
-          <IconButton color='secondary'>
+        <Grid item  xs={2} sx={{display:"flex", gap: 2}}>
+          <Fab color='primary' size="small">
             <CopyAll />
-          </IconButton>
-          <IconButton
+          </Fab>
+          <Fab
             color='secondary'
+            size="small"
             onClick={(e: any) => {
               if (!items.some((e: any) => e.isEditable)) {
                 e.stopPropagation()
@@ -52,10 +53,10 @@ const EachNotEditableItem = ({ item }: any) => {
             }}
           >
             <Edit />
-          </IconButton>
-          <IconButton color='secondary'>
+          </Fab>
+          <Fab color='secondary' size="small">
             <Delete sx={{ cursor: 'pointer' }} onClick={() => dispatch(removeItem(item.id))} />
-          </IconButton>
+          </Fab>
         </Grid>
       </Grid>
     </Box>
