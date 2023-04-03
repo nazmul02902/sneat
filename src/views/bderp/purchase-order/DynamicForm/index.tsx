@@ -1,6 +1,7 @@
 import { CopyAll, Delete, Edit } from '@mui/icons-material'
 import { Divider } from '@mui/material'
 import { Box } from '@mui/system'
+import { useState } from 'react'
 import { FormProvider, useForm } from 'react-hook-form'
 import AutoCompleteAddNew from 'src/@bderp-core/components/FromFields/AutoCompleteAddNew'
 import { useAppDispatch, useAppSelector } from 'src/store/apps/hooks'
@@ -15,52 +16,58 @@ const { Grid, Typography, Button, TextField, Autocomplete } = require('@mui/mate
 const DynamicForm = () => {
   const dispatch = useAppDispatch()
   const { items } = useAppSelector(state => state.purchaseOrder)
+  const [isFormOk, setIsFormOk] = useState(false)
 
   return (
     <>
-      <Grid
-        item
-        container
-        xs={12}
-        sx={{ marginTop: '30px' }}
-        alignItems={'center'}
-      >
+      <Grid item container xs={12} sx={{ marginTop: '30px',borderRadius: "3px", padding: 3, backgroundColor: 'primary.main',color: 'common.white', fontSize: ".5rem" }}  alignItems={'center'}>
         <Grid item xs={1}>
-          <Typography>Image</Typography>
+          <Typography sx={{ fontSize: ".8rem !important"}}>Image</Typography>
         </Grid>
         <Grid item xs={3}>
-          <Typography>Name</Typography>
+          <Typography sx={{ fontSize: ".8rem !important"}}>Name</Typography>
         </Grid>
-        <Grid item xs={3} container sx={{ textAlign: 'center' }}>
+        <Grid item xs={3} container sx={{ textAlign: 'center'}}>
           <Grid item xs={4}>
-            <Typography>Ordered Qty</Typography>
+            <Typography sx={{ fontSize: ".8rem !important"}}>Ordered Qty</Typography>
           </Grid>
           <Grid item xs={4}>
-            <Typography>Received Qty</Typography>
+            <Typography sx={{ fontSize: ".8rem !important"}}>Received Qty</Typography>
           </Grid>
-          <Grid item xs={4}>
-            <Typography>Unit Price</Typography>
+          <Grid item xs={4} sx={{textAlign: "right"}}>
+            <Typography sx={{ fontSize: ".8rem !important"}}>Unit Price</Typography>
           </Grid>
+        </Grid>
+        <Grid item xs={2} sx={{textAlign: "center"}}>
+          <Typography sx={{ fontSize: ".8rem !important"}}>Tax</Typography>
         </Grid>
         <Grid item xs={2}>
-          <Typography>Tax</Typography>
-        </Grid>
-        <Grid item xs={2}>
-          <Typography>Subtotal</Typography>
+          <Typography sx={{ fontSize: ".8rem !important"}}>Subtotal</Typography>
         </Grid>
       </Grid>
 
-      <Divider sx={{marginY: 3}}/>
+      <Divider sx={{ marginY: 2 }} />
 
       {items.map((item: any, i: any) => (
-        <>{item.isEditable ? <EachFormItem item={item} key={i} /> : <EachNotEditableItem item={item} key={i}/>}</>
+        <>
+          {item.isEditable ? (
+            <EachFormItem item={item} key={item.id} />
+          ) : (
+            <EachNotEditableItem item={item} key={item.id} />
+          )}
+        </>
       ))}
 
-      <Grid item xs={12} sx={{ marginTop: '20px' }}>
-        <Button variant='outlined' onClick={(e:any) => {
-          // e.stopPropagation();
-          dispatch(addItem())
-        }}>
+      <Grid item xs={12} >
+        <Button
+          variant='outlined'
+          onClick={(e: any) => {
+            if (!items.some((e: any) => e.isEditable)) {
+              e.stopPropagation()
+              dispatch(addItem())
+            }
+          }}
+        >
           + Add New
         </Button>
       </Grid>

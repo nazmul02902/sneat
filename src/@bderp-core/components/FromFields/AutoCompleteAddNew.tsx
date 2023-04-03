@@ -30,7 +30,9 @@ const AutoCompleteAddNew = ({
   variable_name,
   control,
   refetch,
-  isFetching
+  isFetching,
+  hideInputLabel,
+  error
 }: any) => {
   const [value, setValue] = useState(null)
   const [open, setOpen] = useState(false)
@@ -103,7 +105,7 @@ const AutoCompleteAddNew = ({
 
   return (
     <Grid key={itemName} container item xs={12}>
-      {cols[0] !== 0 && (
+      {!hideInputLabel && (
         <Grid item xs={cols ? cols[0] : 2}>
           <InputLabel>{label ? label : 'label'}</InputLabel>
         </Grid>
@@ -115,6 +117,7 @@ const AutoCompleteAddNew = ({
           render={({ field }) => (
             <Autocomplete
               {...field}
+              ListboxProps={{onClick: (e:any) => e.stopPropagation()}}
               selectOnFocus
               disabled={parent && !watch_val[parent]?.id ? true : false}
               clearOnBlur
@@ -132,7 +135,7 @@ const AutoCompleteAddNew = ({
               fullWidth
               disablePortal
               id='combo-box-demo'
-              renderInput={params => <TextField label={label} {...params} />}
+              renderInput={params => <TextField error={error} label={label} {...params} />}
               onChange={(event, newValue) => {
                 if (!addNew) {
                   setValue(newValue)
